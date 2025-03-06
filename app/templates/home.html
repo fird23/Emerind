@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/home.css' %}">
+<script src="{% static 'scripts/sliders.js' %}"></script>
+
+<div class="main-container">
+  <!-- Секция геро -->
+  <div class="welcome">
+    <h2>Добро пожаловать в наш мир!</h2>
+  </div>
+  
+  <!-- Основной контент (описание игры) -->
+  <div class="content">
+    <h2>О нашей игре</h2>
+    <p>
+      Здесь вы найдёте всю информацию о нашей игре: уникальный геймплей, захватывающий сюжет и множество интересных фич!
+      Исследуйте мир, открывайте новые возможности и наслаждайтесь каждым моментом.
+    </p>
+  </div>
+  
+  <!-- Блоки: Игрок; Враги и боссы; Локации -->
+  <section class="game-blocks">
+    <!-- Блок "Игрок" -->
+    <div class="game-block player-block">
+      <div class="block-content">
+        <h3>Игрок</h3>
+        <div class="block-image">
+          <img src="{% static 'images/hero.jpg' %}" alt="Игрок">
+        </div>
+        <div class="block-text">
+          <p>
+            Ваш герой – смелый воин, готовый к любым приключениям. Его уникальные навыки и умения помогают преодолевать любые преграды.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Блок "Враги и боссы" -->
+    <div class="game-block enemies-block">
+      <h3>Враги и боссы</h3>
+      <div class="slider" data-slider="enemies">
+        <img src="{% static 'images/boss.jpg' %}" class="slide active" alt="Босс">
+        <img src="{% static 'images/enemy.jpg' %}" class="slide" alt="Враг">
+        <img src="{% static 'images/enemy1.jpg' %}" class="slide" alt="Враг 1">
+        <img src="{% static 'images/enemy2.jpg' %}" class="slide" alt="Враг 2">
+      </div>
+      <p>
+        Сражайтесь с грозными врагами и непредсказуемыми боссами – каждый бой проверяет ваши тактические навыки и силу духа.
+      </p>
+    </div>
+    
+    <!-- Блок "Локации" -->
+    <div class="game-block locations-block">
+      <h3>Локации</h3>
+      <div class="slider" data-slider="locations">
+        <img src="{% static 'images/location.jpg' %}" class="slide active" alt="Локация">
+        <img src="{% static 'images/location1.jpg' %}" class="slide" alt="Локация 1">
+        <img src="{% static 'images/location2.png' %}" class="slide" alt="Локация 2">
+        <img src="{% static 'images/location3.png' %}" class="slide" alt="Локация 3">
+      </div>
+      <p>
+        Исследуйте уникальные локации – от древних руин до современных мегаполисов, где каждый уголок хранит свою тайну.
+      </p>
+    </div>
+  </section>
+  
+  {% if latest_blogs %}
+  <div class="last-blogs">
+    <h3>Последние блоги</h3>
+    <div class="blog-cards">
+      {% for blog in latest_blogs %}
+      <a href="{% url 'blog' %}" class="blog-card">
+        {% if blog.image %}
+        <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+        {% endif %}
+        <div class="card-content">
+          <h4>{{ blog.title }}</h4>
+          <p>{{ blog.published_date|date:"d.m.Y" }} – {{ blog.description|truncatewords:10 }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  
+</div>
+{% endblock %}

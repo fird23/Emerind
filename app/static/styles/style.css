@@ -1,0 +1,135 @@
+/* --- Сброс стилей и глобальные настройки --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* --- Основной контейнер для центровки контента --- */
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* --- Шапка --- */
+header {
+  display: flex;
+  background-color:  #4b79a1;
+  padding: 20px 0;
+  text-align: center;
+  color: #fff;
+  min-height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+nav ul li {
+  margin: 0 30px;
+}
+nav ul li a,
+nav ul li button {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+nav ul li a:hover,
+nav ul li button:hover {
+  color: #ffdd57;
+}
+
+/* --- Футер --- */
+footer {
+  display: flex;
+  background: #4b79a1;
+  color: #fff;
+  text-align: center;
+  margin-top: 40px;
+  min-height: 100px;
+  flex-wrap: wrap;
+  padding: 50px 10%;
+  justify-content: space-between;
+  align-items: center;
+
+}
+footer .img {
+  display: flex;
+  width: 50%;
+  gap: 30px;
+  padding: 0 50px;
+  align-items: center;
+}
+footer .img a {
+  width: 100%;
+}
+footer img {
+  width: 80%;
+  border-radius: 100%;
+}
+
+footer nav ul {
+  display: flex;
+  flex-direction: column;
+}
+footer nav ul li {
+  margin: 10px 30px;
+}
+footer nav ul li a {
+  font-size: 2rem;
+
+}
+/* --- Адаптивные стили --- */
+@media (max-width: 992px) {
+  .container {
+    padding: 0 10px;
+  }
+  header h1 {
+    font-size: 2rem;
+  }
+  .welcome {
+    height: 300px;
+  }
+  .welcome h2 {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 600px) {
+  nav ul li {
+    margin: 0 8px;
+  }
+  .content,
+  .last-blogs,
+  .form-container {
+    padding: 20px;
+  }
+  header, footer {
+    padding: 10px 15px;
+  }
+}

@@ -1,0 +1,176 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background: #222;
+    padding: 15px 20px;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+header nav ul li a,
+header nav ul li button {
+    color: #fff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+header nav ul li a:hover,
+header nav ul li button:hover {
+    color: #ff6600;
+}
+
+main {
+    padding: 20px;
+}
+
+/* Контейнер блога */
+.blog-container {
+    max-width: 800px;
+    margin: 0 auto 80px; /* отступ снизу для футера */
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Блог-пост */
+.blog-post {
+    border-bottom: 1px solid #ddd;
+    padding: 20px 0;
+}
+
+.blog-post:last-child {
+    border-bottom: none;
+}
+
+.blog-post h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.date {
+    font-size: 14px;
+    color: #888;
+    margin-left: 10px;
+}
+
+.blog-post p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Блок действий (лайк, комментарии) */
+.actions {
+    margin: 10px 0;
+}
+
+.like-button, .comment-button {
+    background: none;
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.like-button.liked {
+    border-color: red;
+    color: red;
+}
+
+/* Секция комментариев */
+.comments-section {
+    display: none;
+    margin-top: 15px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.comment .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-content {
+    background: #f7f7f7;
+    padding: 8px;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.add-comment textarea {
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.add-comment button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination .page-nav,
+.pagination .page-number {
+    background: none;
+    border: 1px solid #888;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination .page-number.active {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Футер */
+footer {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

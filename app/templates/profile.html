@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+<div class="profile-container">
+  <div class="profile-header">
+    <h2>Личный кабинет</h2>
+    <a href="{% url 'edit_profile' %}" class="edit-button">Редактировать</a>
+  </div>
+  <div class="profile-info">
+    <div class="info-item">
+      <img class="avatar" src="{% if user.avatar and user.avatar.name != 'avatars/avatar.jpg' %}{{ user.avatar.url }}{% else %}{% static 'avatar.jpg' %}{% endif %}">
+    </div>
+    <div class="info-item"><strong>Ник:</strong> {{ user.username }}</div>
+    <div class="info-item"><strong>Email:</strong> {{ user.email }}</div>
+  </div>
+</div>
+{% endblock %}

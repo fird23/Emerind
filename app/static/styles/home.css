@@ -1,0 +1,227 @@
+/* Общие стили */
+/* Общие стили для главной */
+.main-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Если хотите, чтобы все основные секции внутри main-container занимали 100% его ширины: */
+.main-container > .welcome,
+.main-container > .content,
+.main-container > .game-blocks,
+.main-container > .last-blogs {
+  width: 100%;
+}
+
+/* Остальные стили остаются без изменений */
+/* ... (ваш текущий код home.css) ... */
+
+
+/* Секция геро */
+.welcome {
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.welcome::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  background-image: url("/static/images/background.jfif");
+  background-size: cover;
+}
+
+.welcome h2 {
+  font-size: 3rem;
+  margin: 0;
+  z-index: 1;
+}
+
+/* Основной контент */
+.content {
+  background: #f9f9f9;
+  padding: 30px 30px;
+  margin: 40px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.content h2 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.content p {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+/* Блоки игры */
+.game-blocks {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 40px 0;
+  flex-direction: column;
+}
+
+.game-block {
+  flex: 1 1 calc(33.333% - 20px);
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.game-block:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.game-block h3 {
+  font-size: 2.5rem;
+  margin: 15px;
+}
+
+/* Стили для блока "Игрок" */
+.player-block .block-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-image {
+  margin-bottom: 15px;
+}
+
+.block-image img {
+  width: 90%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.block-text p {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.game-block p {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  max-width: 80%;
+  margin: 0 auto;
+}
+/* Слайдер в блоках (Враги и боссы, Локации) */
+.slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  height: 500px;
+}
+
+.slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.slider img.active {
+  opacity: 1;
+}
+
+/* Последние блоги */
+.last-blogs {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.last-blogs h3 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+.blog-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+  align-content: center;
+}
+
+.blog-card {
+  background: #fff;
+  width: 100%;
+  text-decoration: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.blog-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.blog-card img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 50px 0 30px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content h4 {
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.card-content p {
+  font-size: 0.95rem;
+  color: #777;
+  margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .game-blocks {
+    flex-direction: column;
+  }
+  
+  .blog-card {
+    width: 100%;
+  }
+}
