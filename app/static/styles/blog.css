@@ -3,20 +3,20 @@
 /* Контейнер блога */
 .blog-container {
     max-width: 80%;
-    margin: 40px 15%;
+    margin: 40px auto;
     padding: 20px;
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-.blog-container h1 {
+  }
+  .blog-container h1 {
     font-size: 2.5rem;
     text-align: center;
     margin: 0;
-}
-
-/* Карточка поста */
-.blog-post {
+  }
+  
+  /* Карточка поста */
+  .blog-post {
     background: #ffffff;
     padding: 20px 40px;
     margin: 20px 0;
@@ -25,34 +25,210 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-.blog-post h2 {
+  }
+  .blog-post h2 {
     font-size: 2.2rem;
     color: #222;
-    margin: 0 0 10px 0;
+    margin-bottom: 10px;
     text-align: center;
-    word-break: break-all;
-}
-.blog-post .blog-image {
+    word-break: break-word;
+  }
+  .blog-post .blog-image {
+    width: 100%;
     max-width: 900px;
     max-height: 500px;
     object-fit: cover;
     margin: 10px 0;
     border-radius: 8px;
-    display: block;
-    padding: 10px 5%;
-    width: 100%;
-}
-.blog-post p {
+    padding: 10px;
+  }
+  .blog-post p {
     font-size: 1.3rem;
     margin: 10px 0;
     line-height: 1.6;
     color: #555;
-    word-break: break-all;
-}
-
-/* --- Форма создания и редактирования блога --- */
-.form-container {
+    word-break: break-word;
+  }
+  
+  /* Подвал поста: действия и мета */
+  .post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 14px;
+    width: 100%;
+  }
+  .post-footer .post-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .post-footer .post-actions form,
+  .post-footer .post-actions a,
+  .post-footer .post-actions button {
+    margin: 0;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .view-count {
+    font-weight: bold;
+    color: #444;
+  }
+  .eye-icon {
+    margin-right: 5px;
+  }
+  .post-date {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  /* Кнопки действий (блога и комментариев) */
+  .action-button {
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s, border-color 0.3s;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /* Модификаторы для редактирования и удаления */
+  .edit-button {
+    background-color: transparent;
+    border: none;
+    color: #000;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .delete-button {
+    border: none;
+    color: #000;
+    margin: 0;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  /* Лайк и комментарий */
+  /* Для кнопки лайка убираем обводку, оставляем для остальных */
+  .like-button {
+    background: none;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: #888;
+  }
+  .like-button.liked {
+    color: red;
+  }
+  .comment-button {
+    background: none;
+    border: 1px solid #888;
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: #888;
+  }
+  
+  /* Секция комментариев */
+  .comments-section {
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    width: 100%;
+  }
+  .existing-comments {
+    margin-bottom: 10px;
+  }
+  .comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .comment-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  .comment-info {
+    flex: 1;
+  }
+  .comment-author {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .comment-date {
+    font-size: 0.8rem;
+    color: #777;
+    margin-left: 5px;
+  }
+  .comment-text {
+    margin-top: 3px;
+  }
+  
+  /* Форма комментария */
+  .comment-form textarea {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  .comment-form button {
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background: #007bff;
+    color: #fff;
+  }
+  
+  /* Пагинация */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .pagination .page-nav,
+  .pagination .page-number {
+    border: 1px solid #888;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  .pagination .page-number.active {
+    background: #007bff;
+    color: #fff;
+  }
+  
+  /* Форма создания/редактирования блога */
+  .form-container {
     max-width: 60%;
     margin: 40px auto;
     padding: 20px;
@@ -60,38 +236,30 @@
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     text-align: center;
-}
-.form-container h2 {
+  }
+  .form-container h2 {
     font-size: 2rem;
     margin-bottom: 15px;
     color: #222;
-}
-.form-group {
+  }
+  .form-group {
     margin-bottom: 15px;
     text-align: left;
-}   
-.form-group label {
+  }
+  .form-group label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
-}
-.form-group input,
-.form-group textarea {
-    min-width: 100%;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-}
-.form-group input[type="checkbox"]{
-    min-width: 20px;
-}
-.error-message {
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-.submit-button {
+  }
+  .submit-button {
     display: inline-block;
     padding: 10px 20px;
     border: none;
@@ -101,277 +269,97 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
-}
-.submit-button:hover {
+  }
+  .submit-button:hover {
     background: #0056b3;
-}
-
-/* --- Подвал поста: действия и дата --- */
-.post-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    font-size: 14px;
-    width: 100%;
-}
-.post-footer .post-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.post-footer .post-actions form,
-.post-footer .post-actions a,
-.post-footer .post-actions button {
-    margin: 0;
-    padding: 5px 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-/* Кнопка лайка */
-.like-button {
-    color: #888;
-}
-.like-button.liked {
-    color: red;
-}
-
-/* Кнопка комментариев */
-.comment-button {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    border: 1px solid #888;
-    border-radius: 4px;
-    padding: 5px 10px;
-    background: none;
-    color: #888;
-    transition: background 0.3s, color 0.3s;
-}
-
-/* Кнопки редактирования и удаления (для админа) */
-.action-button {
-    color: #000;
-    text-decoration: none;
-}
-
-/* Дата публикации */
-.post-footer .post-date {
-    font-weight: bold;
-    color: #444;
-}
-
-/* --- Секция комментариев --- */
-.comments-section {
-    margin-top: 15px;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    width: 100%;
-}
-.existing-comments {
-    margin-bottom: 10px;
-}
-.comment {
-    margin-bottom: 10px;
-    font-size: 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-.comment-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.comment-info {
-    flex: 1;
-}
-.comment-author {
-    font-weight: bold;
-    margin-right: 5px;
-}
-.comment-date {
-    font-size: 0.8rem;
-    color: #777;
-    margin-left: 5px;
-}
-.comment-text {
-    margin-top: 3px;
-}
-.comment-form textarea {
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 40px;
-    padding: 8px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-.comment-form button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    background: #007bff;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-/* --- Пагинация --- */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-}
-.pagination .page-nav,
-.pagination .page-number {
-    background: none;
-    border: 1px solid #888;
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-.pagination .page-number.active {
-    background: #007bff;
-    color: #fff;
-}
-/* Структура каждого комментария */
-.comment {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
   }
   
-  /* Аватар и основная информация */
-  .comment-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-  }
-  
-  .comment-info {
-    flex: 1;
-  }
-  
-  /* Панель действий, выровненная по правому краю */
-  .comment-actions {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-left: 10px;
-  }
-  
-  .comment-actions button,
-  .comment-actions a {
-    margin: 0;
-    padding: 5px 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  .like-comment-button {
-    color: #888;
-  }
-  /* Если кнопка лайка активна */
-  .like-comment-button.liked {
-    color: red;
-  }
-
-/* Модальные окна */
-.modal {
-    display: none; /* скрыто по умолчанию */
+  /* Модальные окна */
+  .modal {
+    display: none; /* Скрыто по умолчанию */
     position: fixed;
     z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.7); /* затемнённый фон */
+    background-color: rgba(0,0,0,0.7);
+    /* Центрирование через flexbox */
+    align-items: center;
+    justify-content: center;
   }
-  
   .modal-content {
     background: #fff;
-    margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     width: 90%;
-    max-width: 1000px;
+    max-width: 600px;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     animation: fadeIn 0.3s ease;
   }
-.editCommentText {
-    min-width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-.editCommentText textarea {
-    font-size: 1rem;
-}
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10%); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
   .modal .close {
     font-size: 1.5rem;
     color: #888;
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
   }
-  
   .modal .close:hover {
     color: #000;
   }
-  
   .modal-actions {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 20px;
   }
+  /* Кнопки в модальных окнах (с синим фоном и белым текстом) */
+  .modal .modal-button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .modal .modal-button:hover {
+    background-color: #0056b3;
+  }
   
-/* Остальные стили (уже существующие) остаются без изменений */
-
-/* --- Адаптивные стили для блога --- */
-@media (max-width: 768px) {
+  /* Адаптивные стили */
+  @media (max-width: 768px) {
     .blog-container {
-        padding: 15px;
+      padding: 15px;
+      margin: 20px auto;
     }
     .blog-post {
-        padding: 15px 20px;
+      padding: 15px 20px;
     }
     .blog-post h2 {
-        font-size: 20px;
+      font-size: 1.8rem;
     }
     .blog-post p {
-        font-size: 14px;
+      font-size: 1rem;
     }
-    .form-container {
-        padding: 15px;
+    .post-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
     }
-    .form-group input,
-    .form-group textarea {
-        font-size: 0.9rem;
+    .comment-form textarea {
+      font-size: 0.9rem;
     }
-    .submit-button {
-        padding: 8px 15px;
-        font-size: 0.9rem;
+    .action-button,
+    .comment-form button {
+      padding: 8px 12px;
+      font-size: 0.9rem;
     }
-}
+  }
+  

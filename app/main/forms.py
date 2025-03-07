@@ -54,9 +54,10 @@ class ProfileUpdateForm(forms.ModelForm):
         model = User
         fields = ['avatar', 'username', 'email']
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Введите новый ник'}),
-            'email': forms.EmailInput(attrs={'placeholder': 'Введите новый email'}),
+            'title': forms.TextInput(attrs={'placeholder': 'Введите заголовок'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Введите описание'}),
         }
+
 
     def clean(self):
         cleaned_data = super().clean()

@@ -4,12 +4,14 @@
 *::after {
   box-sizing: border-box;
 }
+
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
+
 body {
   background-color: #f4f4f4;
   color: #333;
@@ -26,7 +28,7 @@ body {
 /* --- Шапка --- */
 header {
   display: flex;
-  background-color:  #4b79a1;
+  background-color: #4b79a1;
   padding: 20px 0;
   text-align: center;
   color: #fff;
@@ -77,7 +79,6 @@ footer {
   padding: 50px 10%;
   justify-content: space-between;
   align-items: center;
-
 }
 footer .img {
   display: flex;
@@ -103,8 +104,8 @@ footer nav ul li {
 }
 footer nav ul li a {
   font-size: 2rem;
-
 }
+
 /* --- Адаптивные стили --- */
 @media (max-width: 992px) {
   .container {
@@ -120,6 +121,7 @@ footer nav ul li a {
     font-size: 2rem;
   }
 }
+
 @media (max-width: 600px) {
   nav ul li {
     margin: 0 8px;

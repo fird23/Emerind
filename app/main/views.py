@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
 from django.templatetags.static import static
+from django.urls import reverse
+
 def home(request):
     latest_blogs = BlogPost.objects.order_by('-published_date')[:3]
     return render(request, "home.html", {"latest_blogs": latest_blogs})
@@ -145,21 +147,25 @@ def add_comment(request, post_id):
         if comment_text:
             comment = BlogComment.objects.create(blog=post, author=request.user, text=comment_text)
             if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-                # Используем логику из шаблона для аватарки
                 if request.user.avatar and request.user.avatar.name != 'avatars/avatar.jpg':
                     avatar_url = request.user.avatar.url
                 else:
                     avatar_url = static('avatar.jpg')
                 return JsonResponse({
+                    'comment_id': comment.id,
                     'author': request.user.username,
                     'avatar_url': avatar_url,
                     'date': comment.created_at.strftime('%d.%m.%Y %H:%M'),
                     'text': comment.text,
                     'comment_count': post.comments.count(),
                     'post_id': post_id,
+                    'is_author': True,  # так как автор комментария — текущий пользователь
+                    'edit_url': reverse('edit_comment', args=[comment.id]),
+                    'delete_url': reverse('delete_comment', args=[comment.id]),
                 })
             messages.success(request, "Комментарий добавлен")
     return redirect("blog")
+
 
 @login_required
 def like_comment(request, comment_id):

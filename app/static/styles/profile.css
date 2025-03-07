@@ -46,3 +46,51 @@
   text-decoration: none;
   transition: background 0.3s;
 }
+/* --- Стили для личного кабинета (Профиль) --- */
+.profile-container {
+  max-width: 60%;
+  margin: 40px auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+.profile-header {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.profile-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+.profile-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+.profile-info .info-item {
+  font-size: 1rem;
+  color: #555;
+}
+.avatar {
+  max-width: 900px;
+  border-radius: 30px;
+  width: 100%;
+  max-height: 500px;
+}
+.edit-button {
+display: inline-block;
+padding: 5px 10px;
+border: 1px solid #000;
+border-radius: 4px;
+color: #000;
+text-decoration: none;
+transition: background 0.3s;
+}

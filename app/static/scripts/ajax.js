@@ -71,31 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.like-comment-button').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const commentId = button.dataset.commentId;
+document.addEventListener('click', (e) => {
+    const likeCommentButton = e.target.closest('.like-comment-button');
+    if (likeCommentButton) {
+        const commentId = likeCommentButton.dataset.commentId;
         fetch(`/comment/like/${commentId}/`, {
-          method: 'POST',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-          },
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
         })
         .then(response => response.json())
         .then(data => {
-          // Обновляем количество лайков для комментария
-          const likeCountElem = button.querySelector('.comment-like-count');
-          likeCountElem.textContent = data.like_count;
-          // Можно добавить визуальное выделение, если лайк установлен
-          if (data.liked) {
-            button.classList.add('liked');
-          } else {
-            button.classList.remove('liked');
-          }
+            likeCommentButton.querySelector('.comment-like-count').textContent = data.like_count;
+            if (data.liked) {
+                likeCommentButton.classList.add('liked');
+            } else {
+                likeCommentButton.classList.remove('liked');
+            }
         })
         .catch(error => console.error('Ошибка:', error));
-      });
-    });
+    }
   });
+  
   
