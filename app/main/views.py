@@ -100,6 +100,17 @@ def admin_blog_create(request):
         form = BlogPostForm()
     return render(request, "blog_create.html", {"form": form})
 
+def blog_detail(request, post_id):
+    post = get_object_or_404(BlogPost, id=post_id)
+    viewed_posts = request.session.get('viewed_posts', [])
+    if post_id not in viewed_posts:
+        post.view_count += 1
+        post.save(update_fields=["view_count"])
+        viewed_posts.append(post_id)
+        request.session['viewed_posts'] = viewed_posts
+    return render(request, "blog_detail.html", {"post": post})
+
+
 @user_passes_test(lambda u: u.is_staff)
 def blog_edit(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
@@ -108,10 +119,11 @@ def blog_edit(request, post_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Блог обновлен")
-            return redirect("blog")
+            return redirect("blog_detail", post_id=post.id)  # перенаправляем на детальную страницу
     else:
         form = BlogPostForm(instance=post)
     return render(request, "blog_edit.html", {"form": form, "post": post})
+
 
 @user_passes_test(lambda u: u.is_staff)
 def blog_delete(request, post_id):
@@ -193,14 +205,10 @@ def like_comment(request, comment_id):
 
 @login_required
 def edit_comment(request, comment_id):
-    """
-    Позволяет автору комментария отредактировать свой комментарий.
-    Если запрос AJAX – можно вернуть обновленный текст в формате JSON.
-    """
     comment = get_object_or_404(BlogComment, id=comment_id)
     if comment.author != request.user:
         messages.error(request, "Вы не можете редактировать этот комментарий.")
-        return redirect("blog")
+        return redirect("blog_detail", post_id=comment.blog.id)
     if request.method == "POST":
         new_text = request.POST.get("comment")
         if new_text:
@@ -212,11 +220,11 @@ def edit_comment(request, comment_id):
                     'comment_id': comment.id,
                 })
             messages.success(request, "Комментарий обновлен.")
-            return redirect("blog")
+            return redirect("blog_detail", post_id=comment.blog.id)
         else:
             messages.error(request, "Комментарий не может быть пустым.")
-    # Если GET – можно отобразить простую форму редактирования
     return render(request, "edit_comment.html", {"comment": comment})
+
 
 
 @login_required

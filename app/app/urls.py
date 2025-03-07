@@ -14,6 +14,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("profile/edit/", views.edit_profile, name="edit_profile"),
     path("blog/", views.blog_list, name="blog"),
+    path("blog/<int:post_id>/", views.blog_detail, name="blog_detail"),
     path("blog/create/", views.admin_blog_create, name="admin_blog_create"),
     path("blog/edit/<int:post_id>/", views.blog_edit, name="blog_edit"),
     path("blog/delete/<int:post_id>/", views.blog_delete, name="blog_delete"),

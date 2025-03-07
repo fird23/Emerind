@@ -18,14 +18,14 @@ body {
   line-height: 1.6;
 }
 
-/* --- Основной контейнер для центровки контента --- */
+/* Основной контейнер для центровки контента --- */
 .container {
-  max-width: 90%;
+  max-width: 60%;
   margin: 0 auto;
   padding: 0 15px;
 }
 
-/* --- Шапка --- */
+/* Шапка --- */
 header {
   display: flex;
   background-color: #4b79a1;
@@ -67,7 +67,16 @@ nav ul li button:hover {
   color: #ffdd57;
 }
 
-/* --- Футер --- */
+.main-container {
+  width: 70%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Футер --- */
 footer {
   display: flex;
   background: #4b79a1;
@@ -106,7 +115,7 @@ footer nav ul li a {
   font-size: 2rem;
 }
 
-/* --- Адаптивные стили --- */
+/* Адаптивные стили */
 @media (max-width: 992px) {
   .container {
     padding: 0 10px;
@@ -122,6 +131,28 @@ footer nav ul li a {
   }
 }
 
+@media (max-width: 768px) {
+  /* Новое: адаптация подвала */
+  footer {
+    flex-direction: column;
+    padding: 30px 5%;
+    text-align: center;
+  }
+  footer .img {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  footer nav ul {
+    flex-direction: row;
+    justify-content: center;
+  }
+  footer nav ul li {
+    margin: 0 10px;
+  }
+}
+
 @media (max-width: 600px) {
   nav ul li {
     margin: 0 8px;
@@ -133,5 +164,36 @@ footer nav ul li a {
   }
   header, footer {
     padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    flex-direction: column;
+    padding: 10px;
+  }
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .main-container {
+    width: 95%;
+    padding: 10px;
+  }
+  footer {
+    flex-direction: column;
+    padding: 20px;
+  }
+  footer .img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  footer nav ul {
+    flex-direction: row;
+    gap: 10px;
+  }
+  footer nav ul li {
+    margin: 0 5px;
   }
 }

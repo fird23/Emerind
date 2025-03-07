@@ -2,38 +2,40 @@
 
 /* Контейнер блога */
 .blog-container {
-    max-width: 80%;
+    width: 60%;
+    max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  .blog-container h1 {
+}
+.blog-container h1 {
     font-size: 2.5rem;
     text-align: center;
     margin: 0;
-  }
-  
-  /* Карточка поста */
-  .blog-post {
+}
+
+/* Карточка поста */
+.blog-post {
     background: #ffffff;
-    padding: 20px 40px;
-    margin: 20px 0;
+    padding: 0px 40px 20px 40px;
+    margin: 30px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  .blog-post h2 {
+}
+.blog-post h2 {
+    margin-top: 10px;
     font-size: 2.2rem;
     color: #222;
     margin-bottom: 10px;
     text-align: center;
     word-break: break-word;
-  }
-  .blog-post .blog-image {
+}
+.blog-post .blog-image {
     width: 100%;
     max-width: 900px;
     max-height: 500px;
@@ -41,58 +43,65 @@
     margin: 10px 0;
     border-radius: 8px;
     padding: 10px;
-  }
-  .blog-post p {
+}
+.blog-post p {
     font-size: 1.3rem;
     margin: 10px 0;
     line-height: 1.6;
     color: #555;
     word-break: break-word;
-  }
-  
-  /* Подвал поста: действия и мета */
-  .post-footer {
+}
+.blog-post a.blog-link {
+    color: black;
+    text-decoration: none;
+}
+
+/* Подвал поста: действия и мета */
+.post-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
     font-size: 14px;
     width: 100%;
-  }
-  .post-footer .post-actions {
+}
+.post-footer .post-actions {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  .post-footer .post-actions form,
-  .post-footer .post-actions a,
-  .post-footer .post-actions button {
+}
+.post-footer .post-actions form,
+.post-footer .post-actions a,
+.post-footer .post-actions button {
     margin: 0;
     padding: 5px 10px;
     border: none;
     background: none;
     cursor: pointer;
     font-size: 1rem;
-  }
-  .post-meta {
+}
+.post-meta {
     display: flex;
-    align-items: center;
     gap: 20px;
-  }
-  .view-count {
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -30px;
+}
+.view-count {
     font-weight: bold;
     color: #444;
-  }
-  .eye-icon {
+}
+.eye-icon {
     margin-right: 5px;
-  }
-  .post-date {
+}
+.post-date {
     font-weight: bold;
     color: #444;
-  }
-  
-  /* Кнопки действий (блога и комментариев) */
-  .action-button {
+}
+
+/* Кнопки действий (блога и комментариев) */
+.action-button {
     cursor: pointer;
     font-size: 1rem;
     transition: background 0.3s, border-color 0.3s;
@@ -102,10 +111,10 @@
     background: #007bff;
     color: #fff;
     text-decoration: none;
-  }
-  
-  /* Модификаторы для редактирования и удаления */
-  .edit-button {
+}
+
+/* Модификаторы для редактирования и удаления */
+.edit-button {
     background-color: transparent;
     border: none;
     color: #000;
@@ -113,90 +122,90 @@
     font-size: 1rem;
     cursor: pointer;
     text-decoration: none;
-  }
-  .delete-button {
+}
+.delete-button {
     border: none;
     color: #000;
     margin: 0;
     padding: 5px 10px;
-    border: none;
     background: none;
     cursor: pointer;
     font-size: 1rem;
-  }
-  
-  /* Лайк и комментарий */
-  /* Для кнопки лайка убираем обводку, оставляем для остальных */
-  .like-button {
+}
+
+/* Лайк и комментарий */
+.like-button {
     background: none;
     border: none;
     border-radius: 4px;
     padding: 5px 10px;
     color: #888;
-  }
-  .like-button.liked {
+}
+.like-button.liked {
     color: red;
-  }
-  .comment-button {
+}
+.comment-button {
     background: none;
     border: 1px solid #888;
     border-radius: 4px;
     padding: 5px 10px;
     color: #888;
-  }
-  
-  /* Секция комментариев */
-  .comments-section {
+}
+
+/* Секция комментариев */
+.comments-section {
     margin-top: 15px;
     padding: 10px;
     border-top: 1px solid #ddd;
     width: 100%;
-  }
-  .existing-comments {
+}
+.existing-comments {
     margin-bottom: 10px;
-  }
-  .comment {
+}
+.comment {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 10px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
-  }
-  .comment-avatar {
+}
+.comment-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
-  }
-  .comment-info {
+}
+.comment-info {
     flex: 1;
-  }
-  .comment-author {
+}
+.comment-author {
     font-weight: bold;
     margin-right: 5px;
-  }
-  .comment-date {
+}
+.comment-date {
     font-size: 0.8rem;
     color: #777;
     margin-left: 5px;
-  }
-  .comment-text {
+}
+.comment-text {
     margin-top: 3px;
-  }
-  
-  /* Форма комментария */
-  .comment-form textarea {
+}
+
+/* Форма комментария */
+.comment-form textarea {
     width: 100%;
+    min-width: 100%;
+    max-width: 100%;
     min-height: 40px;
     padding: 8px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-  }
-  .comment-form button {
+}
+.comment-form button {
     cursor: pointer;
     font-size: 1rem;
     padding: 5px 10px;
@@ -204,62 +213,63 @@
     border-radius: 4px;
     background: #007bff;
     color: #fff;
-  }
-  
-  /* Пагинация */
-  .pagination {
+}
+
+/* Пагинация */
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-  }
-  .pagination .page-nav,
-  .pagination .page-number {
+}
+.pagination .page-nav,
+.pagination .page-number {
     border: 1px solid #888;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
     border-radius: 4px;
     font-size: 1rem;
-  }
-  .pagination .page-number.active {
+}
+.pagination .page-number.active {
     background: #007bff;
     color: #fff;
-  }
-  
-  /* Форма создания/редактирования блога */
-  .form-container {
+}
+
+/* Форма создания/редактирования блога */
+.form-container {
     max-width: 60%;
     margin: 40px auto;
-    padding: 20px;
+    padding: 10px 30px;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-  }
-  .form-container h2 {
+}
+.form-container h2 {
     font-size: 2rem;
     margin-bottom: 15px;
     color: #222;
-  }
-  .form-group {
+    margin-top: 10px;
+}
+.form-group {
     margin-bottom: 15px;
     text-align: left;
-  }
-  .form-group label {
+}
+.form-group label {
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
-  }
-  .form-group input,
-  .form-group textarea {
+}
+.form-group input,
+.form-group textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-  }
-  .submit-button {
+}
+.submit-button {
     display: inline-block;
     padding: 10px 20px;
     border: none;
@@ -269,13 +279,13 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
-  }
-  .submit-button:hover {
+}
+.submit-button:hover {
     background: #0056b3;
-  }
-  
-  /* Модальные окна */
-  .modal {
+}
+
+/* Модальные окна */
+.modal {
     display: none; /* Скрыто по умолчанию */
     position: fixed;
     z-index: 9999;
@@ -287,8 +297,8 @@
     /* Центрирование через flexbox */
     align-items: center;
     justify-content: center;
-  }
-  .modal-content {
+}
+.modal-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -297,30 +307,29 @@
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     animation: fadeIn 0.3s ease;
-  }
-  @keyframes fadeIn {
+}
+@keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10%); }
     to { opacity: 1; transform: translateY(0); }
-  }
-  .modal .close {
+}
+.modal .close {
     font-size: 1.5rem;
     color: #888;
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
-  }
-  .modal .close:hover {
+}
+.modal .close:hover {
     color: #000;
-  }
-  .modal-actions {
+}
+.modal-actions {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 20px;
-  }
-  /* Кнопки в модальных окнах (с синим фоном и белым текстом) */
-  .modal .modal-button {
+}
+.modal .modal-button {
     background-color: #007bff;
     border: none;
     color: #fff;
@@ -328,38 +337,107 @@
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-  }
-  .modal .modal-button:hover {
+}
+.modal .modal-button:hover {
     background-color: #0056b3;
-  }
-  
-  /* Адаптивные стили */
-  @media (max-width: 768px) {
-    .blog-container {
-      padding: 15px;
-      margin: 20px auto;
-    }
-    .blog-post {
-      padding: 15px 20px;
-    }
-    .blog-post h2 {
-      font-size: 1.8rem;
-    }
-    .blog-post p {
-      font-size: 1rem;
+}
+
+/* Адаптивные стили */
+@media (max-width: 1200px) {
+    .comment-actions {
+        display: flex;
+        flex-direction: column;
     }
     .post-footer {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+}
+@media (max-width: 768px) {
+    .blog-container {
+        padding: 15px;
+        margin: 20px auto;
+    }
+    .blog-post {
+        padding: 15px 20px;
+    }
+    .blog-post h2 {
+        font-size: 1.8rem;
+    }
+    .blog-post p {
+        font-size: 1rem;
+    }
+    .post-footer .post-actions{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .comment {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
     }
     .comment-form textarea {
-      font-size: 0.9rem;
+        font-size: 0.9rem;
     }
     .action-button,
     .comment-form button {
-      padding: 8px 12px;
-      font-size: 0.9rem;
+        padding: 8px 12px;
+        font-size: 0.9rem;
     }
-  }
-  
+    .comment-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    /* Новое: корректировка строки даты и просмотров */
+    .post-meta {
+        margin-top: 10px !important;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-container {
+        width: 90%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+    .blog-post h2 {
+        font-size: 1.5rem;
+    }
+    .blog-post p {
+        font-size: 0.9rem;
+    }
+    .submit-button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+    .post-footer {
+        font-size: 0.8rem;
+    }
+    
+    /* Новое: адаптация модальных окон */
+    .modal-content {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+    .modal .modal-button {
+        padding: 8px 16px !important;
+        font-size: 0.9rem !important;
+    }
+}
