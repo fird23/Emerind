@@ -9,7 +9,25 @@ from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
 from django.templatetags.static import static
 from django.urls import reverse
+from django.views.decorators.http import require_POST
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page
 
+@cache_page(60 * 15)  # Кэшировать на 15 минут
+def home(request):
+    latest_blogs = BlogPost.objects.order_by('-published_date')[:3]
+    return render(request, "home.html", {"latest_blogs": latest_blogs})
+
+@login_required
+def increment_view_count(request, post_id):
+    if request.user.is_authenticated:
+        post = get_object_or_404(BlogPost, id=post_id)
+        post.view_count += 1
+        post.save()
+        return JsonResponse({'view_count': post.view_count})
+    return JsonResponse({'error': 'Not authenticated'}, status=403)
+    
 def home(request):
     latest_blogs = BlogPost.objects.order_by('-published_date')[:3]
     return render(request, "home.html", {"latest_blogs": latest_blogs})
@@ -17,6 +35,7 @@ def home(request):
 def blog_list(request):
     posts = BlogPost.objects.order_by('-published_date')
     return render(request, "blog.html", {"posts": posts})
+
 
 def register(request):
     if request.method == "POST":
@@ -100,6 +119,12 @@ def admin_blog_create(request):
         form = BlogPostForm()
     return render(request, "blog_create.html", {"form": form})
 
+def blog_detail(request, post_id):
+    post = get_object_or_404(BlogPost.objects.prefetch_related('comments', 'comments__author', 'likes'), id=post_id)
+    
+    increment_view_count(request, post_id)
+    return render(request, "blog_detail.html", {"post": post})
+
 @user_passes_test(lambda u: u.is_staff)
 def blog_edit(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
@@ -122,117 +147,111 @@ def blog_delete(request, post_id):
         return redirect("blog")
     return render(request, "blog_delete_confirm.html", {"post": post})
 
-@login_required
+@require_POST
 def like_blog(request, post_id):
+    if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
     post = get_object_or_404(BlogPost, id=post_id)
     user = request.user
+    
+    if not user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=403)
+    
     if user in post.likes.all():
         post.likes.remove(user)
         liked = False
     else:
         post.likes.add(user)
         liked = True
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        return JsonResponse({
-            'like_count': post.likes.count(),
-            'liked': liked,
-        })
-    return redirect("blog")
+    
+    return JsonResponse({
+        'liked': liked,
+        'like_count': post.likes.count()
+    })
 
 @login_required
+@require_POST
 def add_comment(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
-    if request.method == "POST":
-        comment_text = request.POST.get("comment")
-        if comment_text:
-            comment = BlogComment.objects.create(blog=post, author=request.user, text=comment_text)
-            if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-                if request.user.avatar and request.user.avatar.name != 'avatars/avatar.jpg':
-                    avatar_url = request.user.avatar.url
-                else:
-                    avatar_url = static('avatar.jpg')
-                return JsonResponse({
-                    'comment_id': comment.id,
-                    'author': request.user.username,
-                    'avatar_url': avatar_url,
-                    'date': comment.created_at.strftime('%d.%m.%Y %H:%M'),
-                    'text': comment.text,
-                    'comment_count': post.comments.count(),
-                    'post_id': post_id,
-                    'is_author': True,  # так как автор комментария — текущий пользователь
-                    'edit_url': reverse('edit_comment', args=[comment.id]),
-                    'delete_url': reverse('delete_comment', args=[comment.id]),
-                })
-            messages.success(request, "Комментарий добавлен")
-    return redirect("blog")
+    text = request.POST.get('text', '').strip()
+    
+    if not text:
+        return JsonResponse({'error': 'Текст комментария не может быть пустым'}, status=400)
+    
+    comment = BlogComment.objects.create(
+        blog=post,
+        author=request.user,
+        text=text
+    )
+    
+    avatar_url = request.user.avatar.url if request.user.avatar else static('avatars/avatar.jpg')
+    
+    return JsonResponse({
+        'success': True,
+        'comment_id': comment.id,
+        'author': request.user.username,
+        'avatar_url': avatar_url,
+        'text': comment.text,
+        'date': comment.created_at.strftime('%d.%m.%Y %H:%M'),
+        'comment_count': post.comments.count(),
+        'csrf_token': get_token(request)
+    })
 
-
-@login_required
+@require_POST
 def like_comment(request, comment_id):
-    """
-    Позволяет пользователям лайкать/снимать лайк с комментария.
-    Если запрос AJAX – возвращаем JSON с новым количеством лайков и состоянием.
-    """
+    if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
     comment = get_object_or_404(BlogComment, id=comment_id)
     user = request.user
+    
+    if not user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=403)
+    
     if user in comment.likes.all():
         comment.likes.remove(user)
         liked = False
     else:
         comment.likes.add(user)
         liked = True
-
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        return JsonResponse({
-            'like_count': comment.likes.count(),
-            'liked': liked,
-            'comment_id': comment.id,
-        })
-    return redirect("blog")
-
+        
+    return JsonResponse({
+        'liked': liked,
+        'like_count': comment.likes.count()
+    })
 
 @login_required
+@require_POST
 def edit_comment(request, comment_id):
-    """
-    Позволяет автору комментария отредактировать свой комментарий.
-    Если запрос AJAX – можно вернуть обновленный текст в формате JSON.
-    """
     comment = get_object_or_404(BlogComment, id=comment_id)
     if comment.author != request.user:
-        messages.error(request, "Вы не можете редактировать этот комментарий.")
-        return redirect("blog")
-    if request.method == "POST":
-        new_text = request.POST.get("comment")
-        if new_text:
-            comment.text = new_text
-            comment.save()
-            if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'text': comment.text,
-                    'comment_id': comment.id,
-                })
-            messages.success(request, "Комментарий обновлен.")
-            return redirect("blog")
-        else:
-            messages.error(request, "Комментарий не может быть пустым.")
-    # Если GET – можно отобразить простую форму редактирования
-    return render(request, "edit_comment.html", {"comment": comment})
-
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    text = request.POST.get('text', '').strip()
+    if not text:
+        return JsonResponse({'error': 'Comment text is required'}, status=400)
+    
+    comment.text = text
+    comment.save()
+    
+    return JsonResponse({
+        'success': True,
+        'text': comment.text
+    })
 
 @login_required
+@require_POST
 def delete_comment(request, comment_id):
-    """
-    Позволяет автору комментария удалить его.
-    При AJAX-запросе возвращается JSON-ответ.
-    """
     comment = get_object_or_404(BlogComment, id=comment_id)
     if comment.author != request.user:
-        messages.error(request, "Вы не можете удалить этот комментарий.")
-        return redirect("blog")
-    if request.method == "POST":
-        comment.delete()
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            return JsonResponse({'deleted': True, 'comment_id': comment_id})
-        messages.success(request, "Комментарий удален.")
-        return redirect("blog")
-    return render(request, "delete_comment.html", {"comment": comment})
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    post_id = comment.blog.id
+    comment.delete()
+    
+    post = get_object_or_404(BlogPost, id=post_id)
+    return JsonResponse({
+        'success': True,
+        'comment_count': post.comments.count()
+    })

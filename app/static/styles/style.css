@@ -1,137 +1,651 @@
-/* --- Сброс стилей и глобальные настройки --- */
-*,
-*::before,
-*::after {
+/* --- Глобальные стили --- */
+:root {
+  --primary-color: #6c5ce7;
+  --secondary-color: #a29bfe;
+  --dark-color: #2d3436;
+  --light-color: #f5f6fa;
+  --accent-color: #00cec9;
+  --danger-color: #d63031;
+  --success-color: #00b894;
+  --warning-color: #fdcb6e;
+  --text-primary: #e0e0e0;
+  --bg-primary: #0f0f1a;
+  --bg-secondary: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-}
-
+/* Базовые стили */
 body {
-  background-color: #f4f4f4;
-  color: #333;
+  font-family: 'Roboto', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
 }
 
-/* --- Основной контейнер для центровки контента --- */
-.container {
-  max-width: 90%;
-  margin: 0 auto;
-  padding: 0 15px;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
 }
 
-/* --- Шапка --- */
-header {
-  display: flex;
-  background-color: #4b79a1;
-  padding: 20px 0;
-  text-align: center;
-  color: #fff;
-  min-height: 100px;
-  align-items: center;
-  justify-content: center;
-}
-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-nav ul li {
-  margin: 0 30px;
-}
-nav ul li a,
-nav ul li button {
-  color: #fff;
+a {
   text-decoration: none;
-  font-size: 1.125rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-nav ul li a:hover,
-nav ul li button:hover {
-  color: #ffdd57;
+  color: var(--accent-color);
+  transition: all 0.3s ease;
 }
 
-/* --- Футер --- */
-footer {
+a:hover {
+  color: var(--secondary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+/* --- Шапка --- */
+.game-header {
+  background: rgba(15, 15, 26, 0.9);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 90%;
+  margin: 0;
+  left: 0;
+  right: 0;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
-  background: #4b79a1;
-  color: #fff;
-  text-align: center;
-  margin-top: 40px;
-  min-height: 100px;
-  flex-wrap: wrap;
-  padding: 50px 10%;
   justify-content: space-between;
   align-items: center;
 }
-footer .img {
-  display: flex;
-  width: 50%;
-  gap: 30px;
-  padding: 0 50px;
-  align-items: center;
-}
-footer .img a {
-  width: 100%;
-}
-footer img {
-  width: 80%;
-  border-radius: 100%;
+
+.logo a {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-footer nav ul {
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.main-nav a {
+  color: #e0e0e0;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.main-nav a:hover {
+  color: var(--accent-color);
+  background: rgba(0, 206, 201, 0.1);
+}
+
+.register-btn {
+  background: var(--primary-color);
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.login-btn {
+  border: 1px solid var(--accent-color);
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(214, 48, 49, 0.1);
+}
+
+.admin-btn {
+  background: var(--success-color);
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu-btn i {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Основное содержимое --- */
+.main-content {
+  min-height: calc(100vh - 200px);
+  padding: 40px 0;
+}
+/* --- Кнопки --- */
+.cta-button {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.secondary-button {
+  display: inline-block;
+  background: rgba(0, 206, 201, 0.1);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: 2px solid var(--accent-color);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.secondary-button:hover {
+  background: rgba(0, 206, 201, 0.2);
+  transform: translateY(-3px);
+  color: white;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.like-button.liked {
+  color: var(--danger-color);
+}
+
+/* --- Футер --- */
+.game-footer {
+  background: rgba(15, 15, 26, 0.95);
+  padding: 60px 40px 30px; /* Добавлены отступы по бокам */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px; /* Добавлены отступы */
+}
+
+.footer-logo a {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.footer-logo p {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.footer-nav h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-nav h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--accent-color);
+}
+
+.footer-nav ul {
+  list-style: none;
   display: flex;
   flex-direction: column;
-}
-footer nav ul li {
-  margin: 10px 30px;
-}
-footer nav ul li a {
-  font-size: 2rem;
+  align-items: center;
 }
 
-/* --- Адаптивные стили --- */
+.footer-nav li {
+  margin-bottom: 12px;
+}
+
+.footer-nav a {
+  color: #e0e0e0;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-nav a:hover {
+  color: var(--accent-color);
+  transform: translateX(5px);
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.social-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.social-icon img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: var(--primary-color);
+  color: white !important;
+  border-radius: 30px;
+  margin-top: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Компоненты */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn--secondary {
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-color);
+  color: var(--text-primary);
+}
+
+.btn--danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+/* Header и Footer остаются без изменений */
+@media (max-width: 480px) {
+  .logo a {
+    font-size: 1.5rem;
+  }
+
+  .mobile-menu-btn {
+    font-size: 1.3rem;
+  }
+}
+/* --- Адаптивность --- */
+@media (max-width: 1200px) {
+  .header-container,
+  .footer-container {
+    padding: 0 15px;
+  }
+}
+
 @media (max-width: 992px) {
-  .container {
-    padding: 0 10px;
+  .main-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: var(--bg-primary);
+    padding: 90px 20px 20px;
+    z-index: 998;
+    transition: all 0.4s ease-in-out;
+    overflow-y: auto;
   }
-  header h1 {
-    font-size: 2rem;
+
+  .main-nav.active {
+    left: 0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   }
-  .welcome {
-    height: 300px;
+
+  .mobile-menu-btn.active::after {
+    content: 'ЗАКРЫТЬ';
   }
-  .welcome h2 {
-    font-size: 2rem;
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .main-nav li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .main-nav a,
+  .logout-btn {
+    width: 100% !important;
+    padding: 15px !important;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    z-index: 999;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+  }
+
+  .mobile-menu-btn::before {
+    content: 'MENU';
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .mobile-menu-btn.active::before {
+    content: 'ЗАКРЫТЬ';
+  }
+
+  .mobile-menu-btn.active::before {
+    content: 'ЗАКРЫТЬ';
+  }
+
+  /* Футер */
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer-nav ul {
+    align-items: center;
+  }
+
+  .social-links {
+    justify-content: center;
+    gap: 20px;
+  }
+    .game-header {
+    z-index: 1000;
+  }
+
+  .main-nav {
+    z-index: 999; /* Должен быть ниже чем у шапки */
+    top: 69px; /* Высота шапки -1px чтобы не было щели */
+  }
+
+  /* Исправление текста кнопки */
+  .mobile-menu-btn.active {
+    color: var(--accent-color);
+  }
+
+  .mobile-menu-btn.active::before {
+    content: 'ЗАКРЫТЬ';
+  }
+  body.menu-open {
+    overflow: hidden;
   }
 }
 
-@media (max-width: 600px) {
-  nav ul li {
-    margin: 0 8px;
+@media (max-width: 768px) {
+  /* Общие стили */
+  .container {
+    padding: 0 15px;
   }
-  .content,
-  .last-blogs,
-  .form-container {
-    padding: 20px;
+
+  /* Шапка */
+  .logo a {
+    font-size: 1.5rem;
   }
-  header, footer {
-    padding: 10px 15px;
+
+  /* Герой */
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  /* Кнопки */
+  .cta-button,
+  .secondary-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* Футер */
+  .game-footer {
+    padding: 40px 20px;
+  }
+
+  .social-icon {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Навигация */
+  .mobile-menu-btn {
+    font-size: 1.3rem;
+    padding: 8px;
+  }
+
+  /* Контент */
+  .main-content {
+    padding: 30px 0;
+  }
+
+  /* Кнопки */
+  .action-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* Формы */
+  .form-input {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Текст */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  /* Герой */
+  .hero-section {
+    height: 70vh;
+    min-height: 500px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Футер */
+  .footer-logo a {
+    font-size: 1.5rem;
+  }
+
+  .download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Текст */
+  .logo a {
+    font-size: 1.3rem;
+  }
+
+  /* Кнопки */
+  .register-btn,
+  .login-btn,
+  .logout-btn {
+    padding: 6px 15px !important;
+    font-size: 0.9rem;
+  }
+
+  /* Иконки */
+  .social-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .social-icon img {
+    width: 50%;
+    height: 50%;
   }
 }

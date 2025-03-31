@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/blog.css' %}">
+<script src="{% static 'scripts/blog_modals.js' %}"></script>
+<script src="{% static 'scripts/ajax.js' %}" defer></script>
+
+<div class="blog-detail-container">
+    <article class="blog-post-detail">
+        <div class="post-header">
+            <h1>{{ post.title }}</h1>
+            <div class="post-meta">
+                <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.published_date|date:"d.m.Y H:i" }}</span>
+                <span class="post-views"><i class="far fa-eye"></i> {{ post.view_count }}</span>
+            </div>
+        </div>
+        
+        {% if post.image %}
+        <div class="post-image">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="post-content">
+            {{ post.description|linebreaks }}
+        </div>
+        
+        <div class="post-actions">
+            <form action="{% url 'like_blog' post.id %}" method="post" class="like-form">
+                {% csrf_token %}
+                    <button type="submit" class="action-button like-button {% if user in post.likes.all %}liked{% endif %}">
+                    <i class="{% if user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                    <span class="like-count">{{ post.likes.count }}</span>
+                </button>
+            </form>
+            
+            {% if user.is_staff %}
+            <div class="admin-actions">
+                <a href="{% url 'blog_edit' post.id %}" class="edit-button">
+                    <i class="fas fa-edit"></i> Редактировать
+                </a>
+                <form action="{% url 'blog_delete' post.id %}" method="post" class="delete-blog-form">
+                    {% csrf_token %}
+                    <button type="button" class="action-button danger-button delete-blog-button">
+                        <i class="fas fa-trash-alt"></i> Удалить
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="comments-section">
+            <h3 class="comments-title"><i class="far fa-comments"></i> Комментарии ({{ post.comments.count }})</h3>
+            
+            <div class="existing-comments">
+                {% for comment in post.comments.all %}
+                <div class="comment" id="comment-{{ comment.id }}">
+                    <div class="comment-author">
+                        <div class="comment-avatar">
+                            {% if comment.author.avatar %}
+                                <img src="{{ comment.author.avatar.url }}" alt="{{ comment.author.username }}">
+                            {% else %}
+                                <i class="fas fa-user-circle"></i>
+                            {% endif %}
+                        </div>
+                        <div class="comment-info">
+                            <span class="comment-author-name">{{ comment.author.username }}</span>
+                            <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-text">
+                        {{ comment.text }}
+                    </div>
+                    
+                    <div class="comment-actions">
+                        <form action="{% url 'like_comment' comment.id %}" method="post" class="like-comment-form">
+                            {% csrf_token %}
+                                <button type="submit" class="action-button like-comment-button {% if user in comment.likes.all %}liked{% endif %}">
+                                <i class="{% if user in comment.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                                <span class="comment-like-count">{{ comment.likes.count }}</span>
+                            </button>
+                        </form>
+                        
+                        {% if comment.author == user %}
+                        <button type="button" class="action-button edit-comment-button"
+                                data-comment-id="{{ comment.id }}"
+                                data-text="{{ comment.text|escapejs }}">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </button>
+                        <form action="{% url 'delete_comment' comment.id %}" method="post" class="delete-comment-form">
+                            {% csrf_token %}
+                            <button type="button" class="action-button danger-button delete-comment-button">
+                                <i class="fas fa-trash-alt"></i> Удалить
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-comments">
+                    <p>Пока нет комментариев. Будьте первым!</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if user.is_authenticated %}
+            <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form" id="commentForm" onsubmit="submitComment(event, {{ post.id }});">
+                {% csrf_token %}
+                <textarea name="text" placeholder="Напишите ваш комментарий..." required></textarea>
+                <button type="submit" class="submit-comment">
+                    <i class="fas fa-paper-plane"></i> Отправить
+                </button>
+            </form>
+            {% else %}
+            <div class="login-to-comment">
+                <p>Чтобы оставить комментарий, пожалуйста <a href="{% url 'login' %}">войдите</a> или <a href="{% url 'register' %}">зарегистрируйтесь</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </article>
+</div>
+
+{% include "modals.html" %}
+
+{% endblock %}

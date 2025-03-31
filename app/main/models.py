@@ -15,23 +15,28 @@ class BlogPost(models.Model):
     image = models.ImageField(upload_to='blogs/', blank=True, null=True)
     published_date = models.DateTimeField(default=timezone.now)
     likes = models.ManyToManyField(CustomUser, related_name='liked_blogs', blank=True)
-    view_count = models.PositiveIntegerField(default=0)  # новое поле
+    view_count = models.PositiveIntegerField(default=0)
 
     def like_count(self):
         return self.likes.count()
 
+    @property
     def comment_count(self):
         return self.comments.count()
 
     def __str__(self):
         return self.title
-
+        
 class BlogComment(models.Model):
     blog = models.ForeignKey(BlogPost, related_name='comments', on_delete=models.CASCADE)
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        CustomUser, 
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(CustomUser, related_name='liked_comments', blank=True)  # Новое поле
+    likes = models.ManyToManyField(CustomUser, related_name='liked_comments', blank=True)
 
     def __str__(self):
-        return f'Комментарий от {self.author.username} к {self.blog.title}'
+        return f'Comment by {self.author.username} on {self.blog.title}'

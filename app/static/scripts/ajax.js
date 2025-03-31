@@ -1,98 +1,218 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Обработка кликов по формам лайков
-    document.querySelectorAll('.like-form').forEach(form => {
-        form.addEventListener('submit', e => {
+document.addEventListener('DOMContentLoaded', function() {
+    // Лайк поста
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.like-button')) {
             e.preventDefault();
-            const url = form.action;
+            const button = e.target.closest('.like-button');
+            const form = button.closest('.like-form');
             const formData = new FormData(form);
             
-            fetch(url, {
+            fetch(form.action, {
                 method: 'POST',
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
                 },
-                body: formData,
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
-                // Обновляем счётчик лайков
-                const likeCountElem = form.querySelector('.like-count');
-                likeCountElem.textContent = data.like_count;
-                // Обновляем класс кнопки
-                const likeButton = form.querySelector('.like-button');
-                if (data.liked) {
-                    likeButton.classList.add('liked');
-                } else {
-                    likeButton.classList.remove('liked');
-                }
-            })
-            .catch(error => console.error('Ошибка:', error));
-        });
-    });
-
-    // Обработка отправки комментариев
-    document.querySelectorAll('.comment-form').forEach(form => {
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const url = form.action;
-            const formData = new FormData(form);
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.error){
+                if (data.error) {
                     console.error(data.error);
                     return;
                 }
-                // Добавляем новый комментарий в конец списка
-                const commentsContainer = form.closest('.comments-section').querySelector('.existing-comments');
-                const newCommentHTML = `
-                    <div class="comment">
-                    <img src="${data.avatar_url}" alt="${data.author}" class="comment-avatar">
-                    <div class="comment-info">
-                        <span class="comment-author">${data.author}</span>
-                        <span class="comment-date">${data.date}</span>
-                        <p class="comment-text">${data.text}</p>
-                    </div>
-                    </div>`;
-                    
-                commentsContainer.insertAdjacentHTML('beforeend', newCommentHTML);
-                // Обновляем счётчик комментариев
-                form.reset();
+                
+                const icon = button.querySelector('i');
+                const count = button.querySelector('.like-count');
+                
+                button.classList.toggle('liked', data.liked);
+                icon.classList.toggle('far', !data.liked);
+                icon.classList.toggle('fas', data.liked);
+                if (count) count.textContent = data.like_count;
             })
-            .catch(error => console.error('Ошибка:', error));
-        });
+            .catch(error => console.error('Error:', error));
+        }
     });
-});
 
-document.addEventListener('click', (e) => {
-    const likeCommentButton = e.target.closest('.like-comment-button');
-    if (likeCommentButton) {
-        const commentId = likeCommentButton.dataset.commentId;
-        fetch(`/comment/like/${commentId}/`, {
+    // 2. Обработка отправки нового комментария
+    document.getElementById('commentForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const textarea = this.querySelector('textarea');
+        
+        fetch(this.action, {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
             },
+
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            },
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
-            likeCommentButton.querySelector('.comment-like-count').textContent = data.like_count;
-            if (data.liked) {
-                likeCommentButton.classList.add('liked');
-            } else {
-                likeCommentButton.classList.remove('liked');
+            isSubmitting = false;
+            if (data.error) {
+                alert(data.error);
+                return;
             }
+            
+            const commentsContainer = document.querySelector('.existing-comments');
+            if (commentsContainer.querySelector('.no-comments')) {
+                commentsContainer.innerHTML = '';
+            }
+            
+            const newComment = document.createElement('div');
+            newComment.className = 'comment';
+            newComment.id = `comment-${data.comment_id}`;
+            newComment.innerHTML = `
+                <div class="comment-author">
+                    <div class="comment-avatar">
+                        ${data.avatar_url ? `<img src="${data.avatar_url}" alt="${data.author}">` : '<i class="fas fa-user-circle"></i>'}
+                    </div>
+                    <div class="comment-info">
+                        <span class="comment-author-name">${data.author}</span>
+                        <span class="comment-date">${data.date}</span>
+                    </div>
+                </div>
+                <div class="comment-text">${data.text}</div>
+                <div class="comment-actions">
+                    <form action="/comment/${data.comment_id}/like/" method="post" class="like-comment-form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+                        <button type="button" class="action-button like-comment-button">
+                            <i class="far fa-heart"></i>
+                            <span class="comment-like-count">0</span>
+                        </button>
+                    </form>
+                    <button type="button" class="action-button edit-comment-button" 
+                            data-comment-id="${data.comment_id}"
+                            data-text="${data.text.replace(/"/g, '"')}">
+                        <i class="fas fa-edit"></i> Редактировать
+                    </button>
+                    <form action="/comment/${data.comment_id}/delete/" method="post" class="delete-comment-form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+                        <button type="button" class="action-button danger-button delete-comment-button" 
+                                data-comment-id="${data.comment_id}">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </button>
+                    </form>
+                </div>
+            `;
+            
+            commentsContainer.prepend(newComment);
+            textarea.value = '';
+            
+            document.querySelectorAll('.comments-title').forEach(el => {
+                el.innerHTML = `<i class="far fa-comments"></i> Комментарии (${data.comment_count})`;
+            });
         })
-        .catch(error => console.error('Ошибка:', error));
-    }
-  });
-  
-  
+        .catch(error => {
+            isSubmitting = false; // Сбрасываем флаг в случае ошибки
+            console.error('Error:', error);
+        });
+
+    });
+
+    // 3. Обработка модальных окон
+    const deleteCommentModal = document.getElementById('deleteCommentModal');
+    const editCommentModal = document.getElementById('editCommentModal');
+
+    // Открытие модальных окон
+    document.addEventListener('click', function(e) {
+        // Удаление комментария
+        if (e.target.closest('.delete-comment-button')) {
+            e.preventDefault();
+            const button = e.target.closest('.delete-comment-button');
+            deleteCommentModal.dataset.commentId = button.dataset.commentId;
+            deleteCommentModal.dataset.url = button.closest('form').action;
+            deleteCommentModal.dataset.csrfToken = button.closest('.comment').querySelector('[name=csrfmiddlewaretoken]').value;
+            deleteCommentModal.style.display = 'flex';
+        }
+        
+        // Редактирование комментария
+        if (e.target.closest('.edit-comment-button')) {
+            e.preventDefault();
+            const button = e.target.closest('.edit-comment-button');
+            editCommentModal.dataset.commentId = button.dataset.commentId;
+            editCommentModal.dataset.url = `/comment/${button.dataset.commentId}/edit/`;
+            editCommentModal.dataset.csrfToken = button.closest('.comment').querySelector('[name=csrfmiddlewaretoken]').value;
+            document.getElementById('editCommentText').value = button.dataset.text;
+            editCommentModal.style.display = 'flex';
+        }
+    });
+
+    // Подтверждение удаления
+    document.getElementById('confirmDeleteComment')?.addEventListener('click', async function() {
+        try {
+            const response = await fetch(deleteCommentModal.dataset.url, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': deleteCommentModal.dataset.csrfToken
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById(`comment-${deleteCommentModal.dataset.commentId}`)?.remove();
+                deleteCommentModal.style.display = 'none';
+                
+                document.querySelectorAll('.comments-title').forEach(el => {
+                    el.innerHTML = `<i class="far fa-comments"></i> Комментарии (${data.comment_count})`;
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    // Подтверждение редактирования
+    document.getElementById('confirmEditComment')?.addEventListener('click', async function() {
+        const newText = document.getElementById('editCommentText').value;
+        
+        try {
+            const response = await fetch(editCommentModal.dataset.url, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': editCommentModal.dataset.csrfToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `text=${encodeURIComponent(newText)}`
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                const commentElement = document.getElementById(`comment-${editCommentModal.dataset.commentId}`);
+                if (commentElement) {
+                    commentElement.querySelector('.comment-text').textContent = newText;
+                    const editButton = commentElement.querySelector('.edit-comment-button');
+                    if (editButton) editButton.dataset.text = newText;
+                }
+                editCommentModal.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    // Закрытие модальных окон
+    document.querySelectorAll('.modal .close, .modal .action-button:not(.danger-button)').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+});

@@ -58,7 +58,6 @@ class ProfileUpdateForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'placeholder': 'Введите описание'}),
         }
 
-
     def clean(self):
         cleaned_data = super().clean()
         p1 = cleaned_data.get("password1")

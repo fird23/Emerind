@@ -1,227 +1,466 @@
-/* Общие стили */
-/* Общие стили для главной */
-.main-container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
-
-/* Если хотите, чтобы все основные секции внутри main-container занимали 100% его ширины: */
-.main-container > .welcome,
-.main-container > .content,
-.main-container > .game-blocks,
-.main-container > .last-blogs {
-  width: 100%;
-}
-
-/* Остальные стили остаются без изменений */
-/* ... (ваш текущий код home.css) ... */
-
-
-/* Секция геро */
-.welcome {
-  height: 700px;
+/* --- Герой секция --- */
+.hero-section {
+  position: relative;
+  height: 80vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: white;
   text-align: center;
-  position: relative;
+  overflow: hidden;
+  margin-bottom: 60px;
 }
 
-.welcome::before {
+.hero-section::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  background-image: url("/static/images/background.jfif");
-  background-size: cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), 
+              url('/static/images/background.jfif') no-repeat center center/cover;
+  z-index: -1;
 }
 
-.welcome h2 {
-  font-size: 3rem;
-  margin: 0;
+.hero-content {
+  max-width: 800px;
+  padding: 0 20px;
   z-index: 1;
 }
 
-/* Основной контент */
-.content {
-  background: #f9f9f9;
-  padding: 30px 30px;
-  margin: 40px 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  text-align: center;
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 1s ease;
 }
 
-.content h2 {
-  font-size: 2.5rem;
-  margin: 0;
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 1s ease 0.2s forwards;
+  opacity: 0;
 }
 
-.content p {
-  font-size: 1.6rem;
-  line-height: 1.6;
-}
-
-/* Блоки игры */
-.game-blocks {
+.hero-buttons {
   display: flex;
   gap: 20px;
-  justify-content: space-between;
-  margin: 40px 0;
+  justify-content: center;
+  animation: fadeInUp 1s ease 0.4s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* --- Секции --- */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--accent-color);
+}
+
+.section-header p {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+}
+
+/* --- Особенности игры --- */
+.features-section {
+  padding: 4rem 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  display: flex;
   flex-direction: column;
 }
 
-.game-block {
-  flex: 1 1 calc(33.333% - 20px);
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.feature-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.game-block:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.game-block h3 {
-  font-size: 2.5rem;
-  margin: 15px;
-}
-
-/* Стили для блока "Игрок" */
-.player-block .block-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.block-image {
+.feature-card h3 {
+  font-size: 1.5rem;
   margin-bottom: 15px;
+  text-align: center;
 }
 
-.block-image img {
-  width: 90%;
-  object-fit: cover;
-  border-radius: 8px;
+.feature-card p {
+  color: #c0c0c0;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.block-text p {
-  font-size: 1.6rem;
-  line-height: 1.5;
-  max-width: 80%;
-  margin: 0 auto;
-}
-
-.game-block p {
-  font-size: 1.6rem;
-  line-height: 1.5;
-  max-width: 80%;
-  margin: 0 auto;
-}
-/* Слайдер в блоках (Враги и боссы, Локации) */
-.slider {
-  position: relative;
+.feature-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 0.75rem;
   overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  height: 500px;
+  margin-top: auto;
 }
 
-.slider img {
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-image img {
+  transform: scale(1.05);
+}
+
+/* Слайдеры */
+.enemies-slider,
+.locations-slider {
+  position: relative;
+  height: 200px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.enemies-slider img,
+.locations-slider img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
+  transition: opacity 0.5s ease;
 }
 
-.slider img.active {
+.enemies-slider img.active,
+.locations-slider img.active {
   opacity: 1;
 }
 
-/* Последние блоги */
-.last-blogs {
-  margin: 60px 0;
+/* --- Новости --- */
+.news-section {
+  padding: 4rem 0;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.news-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.news-header {
+  margin-bottom: 15px;
+}
+.news-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.news-content {
+  flex: 1;
+}
+
+.news-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.news-date i {
+  font-size: 0.9em;
+}
+
+.news-content h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.news-content h3 i {
+  color: var(--accent-color);
+  font-size: 1.1em;
+}
+
+.news-content p {
+  color: #c0c0c0;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.news-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  color: #a0a0a0;
+  font-size: 0.9rem;
+}
+
+.news-stats span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.news-stats i {
+  font-size: 0.9em;
+}
+
+.view-all-btn {
+  display: inline-block;
+  color: var(--accent-color);
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--accent-color);
+  transition: all 0.3s ease;
+  margin-top: 30px;
+}
+
+.view-all-btn:hover {
+  background: rgba(0, 206, 201, 0.1);
+}
+
+.section-footer {
   text-align: center;
 }
 
-.last-blogs h3 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ddd;
-}
-
-.blog-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  flex-direction: column;
-  align-content: center;
-}
-
-.blog-card {
-  background: #fff;
-  width: 100%;
-  text-decoration: none;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
+/* --- CTA секция --- */
+.cta-section {
+  padding: 100px 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  position: relative;
   overflow: hidden;
 }
 
-.blog-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.blog-card img {
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 400px;
-  object-fit: cover;
+  height: 100%;
+  opacity: 0.1;
+  z-index: 0;
 }
 
-.card-content {
-  padding: 50px 0 30px 0;
-  flex: 1;
+.cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cta-buttons {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  gap: 20px;
+  justify-content: center;
 }
 
-.card-content h4 {
-  font-size: 1.3rem;
-  margin: 0 0 10px;
-  color: #333;
-}
-
-.card-content p {
-  font-size: 0.95rem;
-  color: #777;
-  margin: 0;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  .game-blocks {
-    flex-direction: column;
+@media (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
   }
   
-  .blog-card {
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-grid,
+  .news-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .hero-section {
+    height: auto;
+    padding: 6rem 0;
+  }
+
+  .cta-section {
+    padding: 4rem 0;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+
+  .news-card {
+    padding: 1.25rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+  }
+
+  .feature-image {
+    height: 150px;
+  }
+
+  .news-stats {
+    flex-wrap: wrap;
+  }
+
+  .cta-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .cta-buttons .cta-button {
     width: 100%;
+    text-align: center;
+  }
+
+  .footer-nav ul {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .social-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .news-content h3 {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 1024px) {
+  .feature-card,
+  .news-card {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-grid,
+  .news-grid {
+    padding: 0 0.5rem;
+    margin: 20px;
+  }
+
+  .feature-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-card,
+  .news-card {
+    max-width: none;
+    padding: 20px;
+  }
+  
+  .news-stats {
+    flex-direction: column;
+    align-items: start;
   }
 }

@@ -4,64 +4,81 @@
 {% block title %}Редактирование профиля{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'styles/reg.css' %}">
+<link rel="stylesheet" href="{% static 'styles/profile.css' %}">
 
-<div class="form-container">
-  <h2>Редактировать профиль</h2>
-
-  {% if form.errors %}
-    <div class="error-message">
-      Пожалуйста, исправьте ошибки ниже
+<div class="profile-edit-container">
+    <div class="profile-edit-header">
+        <h1><i class="fas fa-user-edit"></i> Редактирование профиля</h1>
+        <a href="{% url 'profile' %}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
     </div>
-  {% endif %}
-
-  <form method="post" enctype="multipart/form-data" class="auth-form">
-    {% csrf_token %}
     
-    <div class="form-group">
-      {{ form.username.label_tag }}
-      {{ form.username }}
-      {% if form.username.errors %}
-        <div class="error-message">{{ form.username.errors }}</div>
-      {% endif %}
-    </div>
-
-    <div class="form-group">
-      {{ form.email.label_tag }}
-      {{ form.email }}
-      {% if form.email.errors %}
-        <div class="error-message">{{ form.email.errors }}</div>
-      {% endif %}
-    </div>
-
-    <div class="form-group">
-      {{ form.avatar.label_tag }}
-      {{ form.avatar }}
-      {% if form.avatar.errors %}
-        <div class="error-message">{{ form.avatar.errors }}</div>
-      {% endif %}
-    </div>
-
-    <div class="password-change-section">
-      <h3>Смена пароля</h3>
-      <div class="form-group">
-        {{ form.password1.label_tag }}
-        {{ form.password1 }}
-        {% if form.password1.errors %}
-          <div class="error-message">{{ form.password1.errors }}</div>
-        {% endif %}
-      </div>
-
-      <div class="form-group">
-        {{ form.password2.label_tag }}
-        {{ form.password2 }}
-        {% if form.password2.errors %}
-          <div class="error-message">{{ form.password2.errors }}</div>
-        {% endif %}
-      </div>
-    </div>
-
-    <button type="submit" class="submit-button">Сохранить изменения</button>
-  </form>
+    <form method="post" enctype="multipart/form-data" class="profile-edit-form">
+        {% csrf_token %}
+        
+        <div class="avatar-upload">
+            <div class="avatar-preview">
+                {% if form.instance.avatar %}
+                <img src="{{ form.instance.avatar.url }}" id="avatarPreview">
+                {% else %}
+                <i class="fas fa-user-circle" id="avatarPreview"></i>
+                {% endif %}
+            </div>
+            <div class="avatar-controls">
+                <label for="id_avatar" class="upload-button">
+                    <i class="fas fa-camera"></i> Выбрать фото
+                </label>
+                {{ form.avatar }}
+                {% if form.instance.avatar %}
+                <label class="remove-button">
+                    <i class="fas fa-trash-alt"></i> Удалить
+                    <input type="checkbox" name="avatar-clear" id="avatar-clear-id" style="display: none;">
+                </label>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_username"><i class="fas fa-user"></i> Имя пользователя</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_email"><i class="fas fa-envelope"></i> Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="password-change">
+            <h3><i class="fas fa-lock"></i> Смена пароля</h3>
+            <div class="form-group">
+                <label for="id_password1"><i class="fas fa-key"></i> Новый пароль</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                <div class="error-message">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password2"><i class="fas fa-key"></i> Подтверждение пароля</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                <div class="error-message">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <button type="submit" class="save-button">
+            <i class="fas fa-save"></i> Сохранить изменения
+        </button>
+    </form>
 </div>
 {% endblock %}

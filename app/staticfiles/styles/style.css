@@ -1,0 +1,381 @@
+/* --- Глобальные стили --- */
+:root {
+  --primary-color: #6c5ce7;
+  --secondary-color: #a29bfe;
+  --dark-color: #2d3436;
+  --light-color: #f5f6fa;
+  --accent-color: #00cec9;
+  --danger-color: #d63031;
+  --success-color: #00b894;
+  --warning-color: #fdcb6e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #0f0f1a;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+/* --- Шапка --- */
+.game-header {
+  background: rgba(15, 15, 26, 0.9);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  margin: 0;
+  left: 0;
+  right: 0;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+.main-nav a {
+  color: #e0e0e0;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.main-nav a:hover {
+  color: var(--accent-color);
+  background: rgba(0, 206, 201, 0.1);
+}
+
+.register-btn {
+  background: var(--primary-color);
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.login-btn {
+  border: 1px solid var(--accent-color);
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(214, 48, 49, 0.1);
+}
+
+.admin-btn {
+  background: var(--success-color);
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: 20px;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* --- Основное содержимое --- */
+.main-content {
+  min-height: calc(100vh - 200px);
+  padding: 40px 0;
+}
+/* --- Кнопки --- */
+.cta-button {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.secondary-button {
+  display: inline-block;
+  background: rgba(0, 206, 201, 0.1);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: 2px solid var(--accent-color);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background: rgba(0, 206, 201, 0.2);
+  transform: translateY(-3px);
+  color: white;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.like-button.liked {
+  color: var(--danger-color);
+}
+
+/* --- Футер --- */
+.game-footer {
+  background: rgba(15, 15, 26, 0.95);
+  padding: 60px 40px 30px; /* Добавлены отступы по бокам */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px; /* Добавлены отступы */
+}
+
+.footer-logo a {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.footer-logo p {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+.footer-nav h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-nav h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--accent-color);
+}
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-nav li {
+  margin-bottom: 12px;
+}
+
+.footer-nav a {
+  color: #e0e0e0;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-nav a:hover {
+  color: var(--accent-color);
+  transform: translateX(5px);
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.social-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.social-icon img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 25px;
+  background: var(--primary-color);
+  color: white !important;
+  border-radius: 30px;
+  margin-top: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  background: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Адаптивность --- */
+@media (max-width: 992px) {
+  .main-nav {
+      display: none;
+  }
+  
+  .mobile-menu-btn {
+      display: block;
+  }
+  
+  .header-container {
+      padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+      grid-template-columns: 1fr;
+  }
+  
+  .hero-content h1 {
+      font-size: 2.5rem;
+  }
+}

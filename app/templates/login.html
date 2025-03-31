@@ -5,35 +5,42 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/reg.css' %}">
-<div class="form-container">
-  <h2>Авторизация</h2>
 
-  {% if form.errors %}
-    <div class="error-message">
-      Пожалуйста, исправьте ошибки ниже
-    </div>
-  {% endif %}
-
-  <form method="post" class="auth-form">
-    {% csrf_token %}
+<div class="auth-form-container">
+    <h2><i class="fas fa-sign-in-alt"></i> Вход в аккаунт</h2>
     
-    <div class="form-group">
-      {{ form.username.label_tag }}
-      {{ form.username }}
-      {% if form.username.errors %}
-        <div class="error-message">{{ form.username.errors }}</div>
-      {% endif %}
+    {% if form.errors %}
+    <div class="error-message">
+        Неверное имя пользователя или пароль.
     </div>
-
-    <div class="form-group">
-      {{ form.password.label_tag }}
-      {{ form.password }}
-      {% if form.password.errors %}
-        <div class="error-message">{{ form.password.errors }}</div>
-      {% endif %}
-    </div>
-
-    <button type="submit" class="submit-button">Войти</button>
-  </form>
+    {% endif %}
+    
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_email"><i class="fas fa-envelope"></i> Email</label>
+            <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                {{ form.username }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_password"><i class="fas fa-lock"></i> Пароль</label>
+            <div class="input-with-icon">
+                <i class="fas fa-lock"></i>
+                {{ form.password }}
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-button">
+            <i class="fas fa-sign-in-alt"></i> Войти
+        </button>
+    </form>
 </div>
+<div class="form-footer">
+    Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
+</div>
+
 {% endblock %}

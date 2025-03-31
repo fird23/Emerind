@@ -1,21 +1,63 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Личный кабинет{% endblock %}
+{% block title %}Личный кабинет - {{ user.username }}{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+
 <div class="profile-container">
-  <div class="profile-header">
-    <h2>Личный кабинет</h2>
-    <a href="{% url 'edit_profile' %}" class="edit-button">Редактировать</a>
-  </div>
-  <div class="profile-info">
-    <div class="info-item">
-      <img class="avatar" src="{% if user.avatar and user.avatar.name != 'avatars/avatar.jpg' %}{{ user.avatar.url }}{% else %}{% static 'avatar.jpg' %}{% endif %}">
+    <div class="profile-header">
+        <h1><i class="fas fa-user-circle"></i> Личный кабинет</h1>
+        <a href="{% url 'edit_profile' %}" class="edit-profile-btn">
+            <i class="fas fa-user-edit"></i> Редактировать
+        </a>
     </div>
-    <div class="info-item"><strong>Ник:</strong> {{ user.username }}</div>
-    <div class="info-item"><strong>Email:</strong> {{ user.email }}</div>
-  </div>
+  
+    <div class="profile-content">
+        <div class="profile-avatar-container">
+            <div class="profile-avatar">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="{{ user.username }}">
+                {% else %}
+                    <i class="fas fa-user-circle"></i>
+                {% endif %}
+            </div>
+        </div>
+      
+        <div class="profile-info">
+            <div class="info-card">
+                <h3><i class="fas fa-id-card"></i> Основная информация</h3>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-user"></i> Имя пользователя:</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value">{{ user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-calendar-alt"></i> Дата регистрации:</span>
+                    <span class="info-value">{{ user.date_joined|date:"d.m.Y" }}</span>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-chart-line"></i> Активность</h3>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-comment"></i> Комментарии:</span>
+                    <span class="info-value">{{ user.comments.count }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-heart"></i> Лайки:</span>
+                    <span class="info-value">{{ user.liked_blogs.count|add:user.liked_comments.count }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-calendar-alt"></i> На сайте:</span>
+                    <span class="info-value">{{ user.date_joined|timesince }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

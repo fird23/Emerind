@@ -1,41 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Создание блога{% endblock %}
+{% block title %}{% if form.instance.id %}Редактирование{% else %}Создание{% endif %} новости{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/blog.css' %}">
-<div class="form-container">
-  <h2>Создать блог</h2>
-  {% if form.errors %}
+
+<div class="blog-form-container">
+    <h2>{% if form.instance.id %}Редактировать новость{% else %}Создать новость{% endif %}</h2>
+    
+    {% if form.errors %}
     <div class="error-message">
-      Пожалуйста, исправьте ошибки ниже.
+        Пожалуйста, исправьте ошибки ниже.
     </div>
-  {% endif %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-      {{ form.title.label_tag }}
-      {{ form.title }}
-      {% if form.title.errors %}
-        <div class="error-message">{{ form.title.errors }}</div>
-      {% endif %}
-    </div>
-    <div class="form-group">
-      {{ form.description.label_tag }}
-      {{ form.description }}
-      {% if form.description.errors %}
-        <div class="error-message">{{ form.description.errors }}</div>
-      {% endif %}
-    </div>
-    <div class="form-group">
-      {{ form.image.label_tag }}
-      {{ form.image }}
-      {% if form.image.errors %}
-        <div class="error-message">{{ form.image.errors }}</div>
-      {% endif %}
-    </div>
-    <button type="submit" class="submit-button">Опубликовать</button>
-  </form>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" class="blog-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {% if form.title.errors %}
+            <div class="error-message">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {% if form.description.errors %}
+            <div class="error-message">{{ form.description.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+            {% if form.image.errors %}
+            <div class="error-message">{{ form.image.errors }}</div>
+            {% endif %}
+            {% if form.instance.image %}
+            <img src="{{ form.instance.image.url }}" class="image-preview visible" id="imagePreview">
+            {% else %}
+            <img src="" class="image-preview" id="imagePreview">
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="id_image" class="upload-image-btn">
+              <i class="fas fa-camera"></i> Прикрепить изображение
+          </label>
+          {{ form.image }}
+          {% if form.image.errors %}
+          <div class="error-message">{{ form.image.errors }}</div>
+          {% endif %}
+          <div class="image-preview-container">
+              {% if form.instance.image %}
+              <img src="{{ form.instance.image.url }}" class="image-preview visible" id="imagePreview">
+              {% else %}
+              <img src="" class="image-preview" id="imagePreview">
+              {% endif %}
+              <div class="image-controls">
+                  <label for="id_image" class="upload-image-btn">
+                      <i class="fas fa-sync-alt"></i> Заменить
+                  </label>
+                  {% if form.instance.image %}
+                  <button type="button" class="remove-image-btn" onclick="document.getElementById('imagePreview').classList.remove('visible')">
+                      <i class="fas fa-trash-alt"></i> Удалить
+                  </button>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+        
+        <button type="submit" class="submit-button">
+            {% if form.instance.id %}Сохранить изменения{% else %}Опубликовать{% endif %}
+        </button>
+    </form>
 </div>
 {% endblock %}

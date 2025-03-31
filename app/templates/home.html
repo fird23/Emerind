@@ -1,91 +1,144 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Главная{% endblock %}
+{% block title %}Emerind - Главная{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/home.css' %}">
-<script src="{% static 'scripts/sliders.js' %}"></script>
+<script src="{% static 'scripts/scripts.js' %}"></script>
 
-<div class="main-container">
-  <!-- Секция геро -->
-  <div class="welcome">
-    <h2>Добро пожаловать в наш мир!</h2>
-  </div>
-  
-  <!-- Основной контент (описание игры) -->
-  <div class="content">
-    <h2>О нашей игре</h2>
-    <p>
-      Здесь вы найдёте всю информацию о нашей игре: уникальный геймплей, захватывающий сюжет и множество интересных фич!
-      Исследуйте мир, открывайте новые возможности и наслаждайтесь каждым моментом.
-    </p>
-  </div>
-  
-  <!-- Блоки: Игрок; Враги и боссы; Локации -->
-  <section class="game-blocks">
-    <!-- Блок "Игрок" -->
-    <div class="game-block player-block">
-      <div class="block-content">
-        <h3>Игрок</h3>
-        <div class="block-image">
-          <img src="{% static 'images/hero.jpg' %}" alt="Игрок">
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Добро пожаловать в Emerind</h1>
+        <p>Откройте для себя уникальный игровой мир, полный приключений и загадок</p>
+        <div class="hero-buttons">
+            <a href="#adventure-section" class="cta-button">Начать игру</a>
+            <a href="#features-section" class="secondary-button">Узнать больше</a>
         </div>
-        <div class="block-text">
-          <p>
-            Ваш герой – смелый воин, готовый к любым приключениям. Его уникальные навыки и умения помогают преодолевать любые преграды.
-          </p>
-        </div>
-      </div>
+    </div>
+</section>
+
+<section class="features-section" id="features-section">
+    <div class="section-header">
+        <h2>Особенности игры</h2>
+        <p>Что делает нашу игру уникальной</p>
     </div>
     
-    <!-- Блок "Враги и боссы" -->
-    <div class="game-block enemies-block">
-      <h3>Враги и боссы</h3>
-      <div class="slider" data-slider="enemies">
-        <img src="{% static 'images/boss.jpg' %}" class="slide active" alt="Босс">
-        <img src="{% static 'images/enemy.jpg' %}" class="slide" alt="Враг">
-        <img src="{% static 'images/enemy1.jpg' %}" class="slide" alt="Враг 1">
-        <img src="{% static 'images/enemy2.jpg' %}" class="slide" alt="Враг 2">
+    <div class="features-grid">
+      <!-- Игрок -->
+      <div class="feature-card player-feature">
+          <div class="feature-icon">
+              <i class="fas fa-user-astronaut"></i> <!-- Иконка игрока -->
+          </div>
+          <h3>Ваш герой</h3>
+          <p>Создайте уникального персонажа с сотнями вариантов кастомизации и развивайте его навыки.</p>
+          <div class="feature-image">
+              <img src="{% static 'images/hero.jpg' %}" alt="Игрок">
+          </div>
       </div>
-      <p>
-        Сражайтесь с грозными врагами и непредсказуемыми боссами – каждый бой проверяет ваши тактические навыки и силу духа.
-      </p>
-    </div>
-    
-    <!-- Блок "Локации" -->
-    <div class="game-block locations-block">
-      <h3>Локации</h3>
-      <div class="slider" data-slider="locations">
-        <img src="{% static 'images/location.jpg' %}" class="slide active" alt="Локация">
-        <img src="{% static 'images/location1.jpg' %}" class="slide" alt="Локация 1">
-        <img src="{% static 'images/location2.png' %}" class="slide" alt="Локация 2">
-        <img src="{% static 'images/location3.png' %}" class="slide" alt="Локация 3">
+      
+      <!-- Враги -->
+      <div class="feature-card enemies-feature">
+          <div class="feature-icon">
+              <i class="fas fa-skull"></i> <!-- Иконка врагов -->
+          </div>
+          <h3>Враги и боссы</h3>
+          <p>Сражайтесь с разнообразными противниками, каждый со своей тактикой и уникальными способностями.</p>
+          <div class="enemies-slider" data-slider="enemies">
+              <img src="{% static 'images/boss.jpg' %}" class="slide active" alt="Босс">
+              <img src="{% static 'images/enemy.jpg' %}" class="slide" alt="Враг">
+              <img src="{% static 'images/enemy1.jpg' %}" class="slide" alt="Враг 1">
+              <img src="{% static 'images/enemy2.jpg' %}" class="slide" alt="Враг 2">
+          </div>
       </div>
-      <p>
-        Исследуйте уникальные локации – от древних руин до современных мегаполисов, где каждый уголок хранит свою тайну.
-      </p>
-    </div>
-  </section>
-  
-  {% if latest_blogs %}
-  <div class="last-blogs">
-    <h3>Последние блоги</h3>
-    <div class="blog-cards">
-      {% for blog in latest_blogs %}
-      <a href="{% url 'blog' %}" class="blog-card">
-        {% if blog.image %}
-        <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
-        {% endif %}
-        <div class="card-content">
-          <h4>{{ blog.title }}</h4>
-          <p>{{ blog.published_date|date:"d.m.Y" }} – {{ blog.description|truncatewords:10 }}</p>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
+      
+      <!-- Локации -->
+      <div class="feature-card locations-feature">
+          <div class="feature-icon">
+              <i class="fas fa-map-marked-alt"></i> <!-- Иконка локаций -->
+          </div>
+          <h3>Мир игры</h3>
+          <p>Исследуйте огромный открытый мир с разнообразными биомами и скрытыми секретами.</p>
+          <div class="locations-slider" data-slider="locations">
+              <img src="{% static 'images/location.jpg' %}" class="slide active" alt="Локация">
+              <img src="{% static 'images/location1.jpg' %}" class="slide" alt="Локация 1">
+              <img src="{% static 'images/location2.png' %}" class="slide" alt="Локация 2">
+              <img src="{% static 'images/location3.png' %}" class="slide" alt="Локация 3">
+          </div>
+      </div>
   </div>
-  {% endif %}
-  
 </div>
+</section>
+
+{% if latest_blogs %}
+<section class="news-section">
+    <div class="section-header">
+        <h2>Последние новости</h2>
+        <p>Будьте в курсе всех обновлений</p>
+    </div>
+    
+    <div class="news-grid">
+        {% for blog in latest_blogs %}
+        <article class="news-card">
+            <a href="{% url 'blog_detail' blog.id %}">
+                <div class="news-content">
+                    <div class="news-header">
+                        <span class="news-date">
+                            <i class="far fa-calendar-alt"></i> 
+                            {{ blog.published_date|date:"d.m.Y" }}
+                        </span>
+                        <h3>
+                            <i class="far fa-file-alt"></i> 
+                            {{ blog.title }}
+                        </h3>
+                    </div>
+                    <p>{{ blog.description|truncatewords:10 }}</p>
+                    <div class="news-stats">
+                        <span class="views">
+                            <i class="far fa-eye"></i> {{ blog.view_count }}
+                        </span>
+                        <span class="likes">
+                            <i class="far fa-heart"></i> {{ blog.likes.count }}
+                        </span>
+                        <span class="comments">
+                            <i class="far fa-comment"></i> {{ blog.comment_count }}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+    
+    <div class="section-footer">
+        <a href="{% url 'blog' %}" class="view-all-btn">Все новости →</a>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta-section" id="adventure-section">
+    <div class="cta-content">
+        <h2>Готовы к приключениям?</h2>
+        <p>Присоединяйтесь к тысячам игроков по всему миру</p>
+        <div class="cta-buttons">
+            <a href="{% static 'Emerind.zip' %}" class="cta-button">Скачать сейчас</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Плавная прокрутка к секциям
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#adventure-section').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.querySelector('.secondary-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#features-section').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+
 {% endblock %}
