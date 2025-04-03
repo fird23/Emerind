@@ -13,8 +13,8 @@
         <div class="post-header">
             <h1>{{ post.title }}</h1>
             <div class="post-meta">
-                <span class="post-date"><i class="far fa-calendar-alt"></i> {{ post.published_date|date:"d.m.Y H:i" }}</span>
-                <span class="post-views"><i class="far fa-eye"></i> {{ post.view_count }}</span>
+                <span><i class="far fa-calendar-alt"></i> {{ post.published_date|date:"d.m.Y H:i" }}</span>
+                <span><i class="far fa-eye"></i> {{ post.view_count }}</span>
             </div>
         </div>
         
@@ -29,7 +29,7 @@
         </div>
         
         <div class="post-actions">
-            <form action="{% url 'like_blog' post.id %}" method="post" class="like-form">
+            <form action="{% url 'like_blog' post.id %}" method="post">
                 {% csrf_token %}
                     <button type="submit" class="action-button like-button {% if user in post.likes.all %}liked{% endif %}">
                     <i class="{% if user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
@@ -44,7 +44,7 @@
                 </a>
                 <form action="{% url 'blog_delete' post.id %}" method="post" class="delete-blog-form">
                     {% csrf_token %}
-                    <button type="button" class="action-button danger-button delete-blog-button">
+                    <button type="button" class="delete-blog-button">
                         <i class="fas fa-trash-alt"></i> Удалить
                     </button>
                 </form>
@@ -54,19 +54,14 @@
 
         <div class="comments-section">
             <h3 class="comments-title"><i class="far fa-comments"></i> Комментарии ({{ post.comments.count }})</h3>
-            
-            <div class="existing-comments">
+            <div>
                 {% for comment in post.comments.all %}
                 <div class="comment" id="comment-{{ comment.id }}">
                     <div class="comment-author">
                         <div class="comment-avatar">
-                            {% if comment.author.avatar %}
-                                <img src="{{ comment.author.avatar.url }}" alt="{{ comment.author.username }}">
-                            {% else %}
-                                <i class="fas fa-user-circle"></i>
-                            {% endif %}
+                            <img src="{{ comment.author.avatar.url }}" alt="{{ comment.author.username }}">
                         </div>
-                        <div class="comment-info">
+                        <div>
                             <span class="comment-author-name">{{ comment.author.username }}</span>
                             <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
                         </div>
@@ -108,7 +103,7 @@
             </div>
             
             {% if user.is_authenticated %}
-            <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form" id="commentForm" onsubmit="submitComment(event, {{ post.id }});">
+            <form action="{% url 'add_comment' post.id %}" method="post" class="comment-form" id="commentForm">
                 {% csrf_token %}
                 <textarea name="text" placeholder="Напишите ваш комментарий..." required></textarea>
                 <button type="submit" class="submit-comment">

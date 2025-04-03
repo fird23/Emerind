@@ -6,11 +6,9 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/blog.css' %}">
 
-<section class="blog-hero">
-    <div class="blog-hero-content">
+<section class="blog-main">
         <h1><i class="fas fa-newspaper"></i> Новости Emerind</h1>
         <p>Будьте в курсе последних обновлений и событий</p>
-    </div>
 </section>
 
 <section class="blog-container">
@@ -19,7 +17,7 @@
         <article class="blog-post">
             <div class="post-header">
                 <h2><a href="{% url 'blog_detail' post.id %}"><i class="far fa-file-alt"></i> {{ post.title }}</a></h2>
-                <p class="post-excerpt">{{ post.description|truncatewords:30 }}</p>
+                <p>{{ post.description|truncatewords:30 }}</p>
             </div>
             
             <div class="post-footer">

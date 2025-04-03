@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Инициализация модальных окон
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Проверяем, начинается ли cookie с нужного имени
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
     const deleteCommentModal = document.getElementById('deleteCommentModal');
     const editCommentModal = document.getElementById('editCommentModal');
     
@@ -111,12 +126,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Функция для отправки комментария
-    window.submitComment = async function(event, postId) {
-        event.preventDefault(); // Предотвращаем стандартное поведение формы
+    window.submitComment = async function(event) {
+        event.preventDefault();
         const form = event.target;
-        const formData = new FormData(form);
+        
+        // Блокируем повторные отправки
+        if (form.classList.contains('submitting')) return;
+        form.classList.add('submitting');
         
         try {
+            const formData = new FormData(form);
             const response = await fetch(form.action, {
                 method: 'POST',
                 headers: {
@@ -125,43 +144,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: formData
             });
+            
+            if (!response.ok) throw new Error('Ошибка сервера');
             const data = await response.json();
             
             if (data.success) {
-                // Проверяем, существует ли комментарий
-                const existingComment = document.getElementById(`comment-${data.comment.id}`);
-                if (!existingComment) {
-                    // Обновляем раздел комментариев
-                    const commentsSection = document.querySelector('.existing-comments');
-                    commentsSection.insertAdjacentHTML('beforeend', `
-                        <div class="comment" id="comment-${data.comment.id}">
-                            <div class="comment-author">
-                                <div class="comment-avatar">
-                                    <i class="fas fa-user-circle"></i>
-                                </div>
-                                <div class="comment-info">
-                                    <span class="comment-author-name">${data.comment.author}</span>
-                                    <span class="comment-date">${data.comment.created_at}</span>
-                                </div>
-                            </div>
-                            <div class="comment-text">${data.comment.text}</div>
-                        </div>
-                    `);
-                }
-                // Очищаем текстовое поле
+                const commentsContainer = document.querySelector('.existing-comments');
+                
+                const freshResponse = await fetch(`/blog/${form.dataset.postId}/comments/`);
+                const freshHtml = await freshResponse.text();
+                commentsContainer.innerHTML = freshHtml;
+                                
                 form.reset();
-            } else {
-                console.error(data.error);
+                document.querySelector('.comments-title').innerHTML = 
+                    `<i class="far fa-comments"></i> Комментарии (${data.comment_count})`;
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Ошибка:', error);
+            alert(error.message);
+        } finally {
+            form.classList.remove('submitting');
         }
     };
-    document.querySelectorAll('.modal .close, .modal .action-button:not(.danger-button)').forEach(btn => {
-        btn.addEventListener('click', function() {
-            this.closest('.modal').style.display = 'none';
-        });
-    });
     
     // Закрытие по клику вне модального окна
     window.addEventListener('click', function(e) {
@@ -185,4 +189,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-

@@ -56,8 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CSRF_USE_SESSIONS = False
-CSRF_COOKIE_HTTPONLY = False
 
 ROOT_URLCONF = 'app.urls'
 

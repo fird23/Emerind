@@ -5,7 +5,6 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/home.css' %}">
-<script src="{% static 'scripts/scripts.js' %}"></script>
 
 <section class="hero-section">
     <div class="hero-content">
@@ -25,48 +24,46 @@
     </div>
     
     <div class="features-grid">
-      <!-- Игрок -->
-      <div class="feature-card player-feature">
-          <div class="feature-icon">
-              <i class="fas fa-user-astronaut"></i> <!-- Иконка игрока -->
-          </div>
-          <h3>Ваш герой</h3>
-          <p>Создайте уникального персонажа с сотнями вариантов кастомизации и развивайте его навыки.</p>
-          <div class="feature-image">
-              <img src="{% static 'images/hero.jpg' %}" alt="Игрок">
-          </div>
-      </div>
-      
-      <!-- Враги -->
-      <div class="feature-card enemies-feature">
-          <div class="feature-icon">
-              <i class="fas fa-skull"></i> <!-- Иконка врагов -->
-          </div>
-          <h3>Враги и боссы</h3>
-          <p>Сражайтесь с разнообразными противниками, каждый со своей тактикой и уникальными способностями.</p>
-          <div class="enemies-slider" data-slider="enemies">
-              <img src="{% static 'images/boss.jpg' %}" class="slide active" alt="Босс">
-              <img src="{% static 'images/enemy.jpg' %}" class="slide" alt="Враг">
-              <img src="{% static 'images/enemy1.jpg' %}" class="slide" alt="Враг 1">
-              <img src="{% static 'images/enemy2.jpg' %}" class="slide" alt="Враг 2">
-          </div>
-      </div>
-      
-      <!-- Локации -->
-      <div class="feature-card locations-feature">
-          <div class="feature-icon">
-              <i class="fas fa-map-marked-alt"></i> <!-- Иконка локаций -->
-          </div>
-          <h3>Мир игры</h3>
-          <p>Исследуйте огромный открытый мир с разнообразными биомами и скрытыми секретами.</p>
-          <div class="locations-slider" data-slider="locations">
-              <img src="{% static 'images/location.jpg' %}" class="slide active" alt="Локация">
-              <img src="{% static 'images/location1.jpg' %}" class="slide" alt="Локация 1">
-              <img src="{% static 'images/location2.png' %}" class="slide" alt="Локация 2">
-              <img src="{% static 'images/location3.png' %}" class="slide" alt="Локация 3">
-          </div>
-      </div>
-  </div>
+        <!-- Игрок -->
+        <div class="feature-card player-feature">
+            <div class="feature-icon">
+                <i class="fas fa-user-astronaut"></i>
+            </div>
+            <h3>Ваш герой</h3>
+            <p>Создайте уникального персонажа с сотнями вариантов кастомизации и развивайте его навыки.</p>
+            <div class="feature-image">
+                <img src="{% static 'images/hero.jpg' %}" alt="Игрок">
+            </div>
+        </div>
+        <!-- Враги -->
+        <div class="feature-card enemies-feature">
+            <div class="feature-icon">
+                <i class="fas fa-skull"></i>
+            </div>
+            <h3>Враги и боссы</h3>
+            <p>Сражайтесь с разнообразными противниками, каждый со своей тактикой и уникальными способностями.</p>
+            <div class="feature-image enemies-slider slider" data-slider="enemies">
+                <img src="{% static 'images/boss.jpg' %}" class="slide active" alt="Босс">
+                <img src="{% static 'images/enemy.jpg' %}" class="slide" alt="Враг">
+                <img src="{% static 'images/enemy1.jpg' %}" class="slide" alt="Враг 1">
+                <img src="{% static 'images/enemy2.jpg' %}" class="slide" alt="Враг 2">
+            </div>
+        </div>   
+        <!-- Локации -->
+        <div class="feature-card locations-feature">
+            <div class="feature-icon">
+                <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h3>Мир игры</h3>
+            <p>Исследуйте огромный открытый мир с разнообразными биомами и скрытыми секретами.</p>
+            <div class="feature-image locations-slider slider" data-slider="locations">
+                <img src="{% static 'images/location.jpg' %}" class="slide active" alt="Локация">
+                <img src="{% static 'images/location1.jpg' %}" class="slide" alt="Локация 1">
+                <img src="{% static 'images/location2.png' %}" class="slide" alt="Локация 2">
+                <img src="{% static 'images/location3.png' %}" class="slide" alt="Локация 3">
+            </div>
+        </div>
+    </div>
 </div>
 </section>
 

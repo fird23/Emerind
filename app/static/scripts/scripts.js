@@ -1,52 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Инициализация мобильного меню
-    const initMobileMenu = () => {
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const mainNav = document.querySelector('.main-nav');
-        const body = document.body;
-        
-        const toggleMenu = (state) => {
-            const isActive = state !== undefined ? state : !mainNav.classList.contains('active');
-            
-            mainNav.classList.toggle('active', isActive);
-            mobileMenuBtn.classList.toggle('active', isActive);
-            body.classList.toggle('menu-open', isActive);
-            
-            // Блокировка скролла
-            if (isActive) {
-                document.documentElement.style.overflow = 'hidden';
-            } else {
-                document.documentElement.style.removeProperty('overflow');
-            }
-        };
+window.addEventListener('DOMContentLoaded', () => {
+    // Mobile Menu
+    const burgerMenu = document.querySelector('.burger-menu');
+    const mainNav = document.querySelector('.main-nav');
+    const menuOverlay = document.querySelector('.menu-overlay');
     
-        // Обработчик клика по кнопке
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMenu();
+    if (burgerMenu && mainNav && menuOverlay) {
+    
+        burgerMenu.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            burgerMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
         });
     
-        // Закрытие при клике вне меню
-        document.addEventListener('click', (e) => {
-            if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                toggleMenu(false);
-            }
+        menuOverlay.addEventListener('click', () => {
+            mainNav.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
         });
     
-        // Закрытие при ресайзе
+        document.querySelectorAll('.nav-list a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                burgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            });
+        });
+    
         window.addEventListener('resize', () => {
             if (window.innerWidth > 992) {
-                toggleMenu(false);
-            }
-        }, { passive: true });
-    
-        // Закрытие по ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                toggleMenu(false);
+                mainNav.classList.remove('active');
+                burgerMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             }
         });
-    };
+    }
 
     // Общая функция для обработки лайков
     const initLikeForms = (selector, buttonClass, countClass) => {
@@ -88,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentIndex = 0;
             
             if (slides.length > 0) {
+                // Показываем первый слайд сразу
+                slides[currentIndex].classList.add('active');
+                
+                // Запускаем интервал
                 setInterval(() => {
                     slides[currentIndex].classList.remove('active');
                     currentIndex = (currentIndex + 1) % slides.length;
@@ -182,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Инициализация всех компонентов
-    initMobileMenu();
     initSliders();
     initCommentForm();
     initLikeForms('.like-form', '.like-button', '.like-count');

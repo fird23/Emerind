@@ -2,25 +2,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Emerind{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'fontawesome-free-6.4.0-web/css/all.min.css' %}">
     <script src="{% static 'scripts/scripts.js' %}"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="{% static 'styles/style.css' %}" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" as="style">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 <body>
-    <header class="game-header">
+    <header>
         <div class="header-container">
             <div class="logo">
                 <a href="{% url 'home' %}">Emerind</a>
             </div>
             <nav class="main-nav">
-                <ul>
+                <ul class="nav-list">
                     <li><a href="{% url 'home' %}">Главная</a></li>
                     <li><a href="{% url 'blog' %}">Новости</a></li>
                     {% if user.is_authenticated %}
@@ -40,14 +36,16 @@
                     {% endif %}
                 </ul>
             </nav>
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
+            <button class="burger-menu">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
             </button>
-            
         </div>
+        <div class="menu-overlay"></div>
     </header>
 
-    <main class="main-content">
+    <main>
         {% block content %}{% endblock %}
     </main>
 

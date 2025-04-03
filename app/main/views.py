@@ -14,11 +14,6 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
 
-@cache_page(60 * 15)  # Кэшировать на 15 минут
-def home(request):
-    latest_blogs = BlogPost.objects.order_by('-published_date')[:3]
-    return render(request, "home.html", {"latest_blogs": latest_blogs})
-
 @login_required
 def increment_view_count(request, post_id):
     if request.user.is_authenticated:
@@ -173,31 +168,52 @@ def like_blog(request, post_id):
 @login_required
 @require_POST
 def add_comment(request, post_id):
-    post = get_object_or_404(BlogPost, id=post_id)
-    text = request.POST.get('text', '').strip()
+    if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'error': 'Invalid request'}, status=400)
     
-    if not text:
-        return JsonResponse({'error': 'Текст комментария не может быть пустым'}, status=400)
-    
-    comment = BlogComment.objects.create(
-        blog=post,
-        author=request.user,
-        text=text
-    )
-    
-    avatar_url = request.user.avatar.url if request.user.avatar else static('avatars/avatar.jpg')
-    
-    return JsonResponse({
-        'success': True,
-        'comment_id': comment.id,
-        'author': request.user.username,
-        'avatar_url': avatar_url,
-        'text': comment.text,
-        'date': comment.created_at.strftime('%d.%m.%Y %H:%M'),
-        'comment_count': post.comments.count(),
-        'csrf_token': get_token(request)
-    })
+    try:
+        post = get_object_or_404(BlogPost, id=post_id)
+        text = request.POST.get('text', '').strip()
+        
+        if not text:
+            return JsonResponse({'success': False, 'error': 'Текст комментария не может быть пустым'}, status=400)
+        
+        comment = BlogComment.objects.create(
+            blog=post,
+            author=request.user,
+            text=text
+        )
+        
+        # Формируем полные URL для аватарок
+        avatar_url = request.user.avatar.url if request.user.avatar else static('avatars/avatar.jpg')
+        absolute_avatar_url = request.build_absolute_uri(avatar_url)
 
+        comment_count = BlogComment.objects.filter(blog=post).count()
+        
+        return JsonResponse({
+            'success': True,
+            'comment': {
+                'id': comment.id,
+                'author': comment.author.username,
+                'text': comment.text,
+                'created_at': comment.created_at.strftime("%d.%m.%Y %H:%M"),
+                'avatar_url': absolute_avatar_url
+            },
+            'comment_count': comment_count
+        })
+        
+    except Exception as e:
+        logger.error(f"Comment error: {str(e)}")
+        return JsonResponse(
+            {'success': False, 'error': 'Internal server error'},
+            status=500
+        )
+def blog_comments(request, post_id):
+    post = get_object_or_404(BlogPost, id=post_id)
+    return render(request, "components/comments_list.html", {
+        "post": post
+    })
+    
 @require_POST
 def like_comment(request, comment_id):
     if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
