@@ -544,51 +544,10 @@
     font-size: 0.9rem;
     margin-top: 5px;
 }
-
-@media (max-width: 768px) {
-    .blog-form-container {
-        padding: 30px 20px;
-    }
-    
-    .image-controls {
-        flex-direction: column;
-    }
-    
-    .upload-image-btn,
-    .remove-image-btn {
-        justify-content: center;
-    }
-}
-/* Адаптивность */
-@media (max-width: 768px) {
-    .blog-post-detail {
-        padding: 25px;
-    }
-    
-    .post-header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .post-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    
-    .post-actions {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-}
-/* --- Создание/редактирование блога --- */
-
 .blog-form {
     display: flex;
     flex-direction: column;
 }
-
-
 
 .error-message {
     color: var(--danger-color);
@@ -596,8 +555,6 @@
     margin-top: 5px;
 }
 
-
-  
 /* Детали поста */
 .blog-post__image {
     border-radius: 10px;
@@ -613,10 +570,39 @@
     background: var(--bg-secondary);
     border-radius: 15px;
 }
-  
 @media (max-width: 768px) {
+    .blog-form-container {
+        padding: 30px 20px;
+    }
+    
+    .image-controls {
+        flex-direction: column;
+    }
+    
+    .upload-image-btn,
+    .remove-image-btn {
+        justify-content: center;
+    }
+
+    .blog-post-detail {
+        padding: 25px;
+    }
+    
+    .post-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .post-meta {
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .post-actions {
+        gap: 15px;
+        align-items: flex-start;
+    }
     .blog-post {
-        padding: 1.5rem;
+        padding: 1.2rem;
     } 
     .blog-form {
         padding: 1.5rem;
@@ -624,19 +610,11 @@
     .blog-form-container {
         padding: 30px 20px;
     }
-}
-@media (max-width: 768px) {
     .blog-main {
         height: 250px;
     }
-    .blog-post {
-        padding: 1.5rem;
-    }
     .post-header h1 {
         font-size: 1.75rem;
-    }
-    .post-actions {
-        flex-direction: column;
     }
     .blog-form-container {
         padding: 1.5rem;
@@ -652,11 +630,12 @@
         margin-bottom: 1.5rem;
     }
     .post-meta {
-        flex-direction: column;
         gap: 0.5rem;
     }
     .comment-actions {
         gap: 0.5rem;
+        flex-direction: column;
+        align-items: center;
     }
     .form-group textarea {
         min-height: 120px;
@@ -665,4 +644,8 @@
         width: 100%;
         justify-content: center;
     }
+    .post-footer {
+        flex-direction: column;
+        gap: 20px;
+      }
 }

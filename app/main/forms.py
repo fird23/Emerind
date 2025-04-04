@@ -1,17 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import get_user_model
 from django import forms
 from .models import CustomUser
 from .models import BlogPost, BlogComment
-
-User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "email", "password1", "password2", "avatar")
 
 class EmailLoginForm(AuthenticationForm):
     username = forms.EmailField(
@@ -51,7 +48,7 @@ class ProfileUpdateForm(forms.ModelForm):
     )
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['avatar', 'username', 'email']
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Введите заголовок'}),

@@ -29,7 +29,7 @@
         </div>
         
         <div class="post-actions">
-            <form action="{% url 'like_blog' post.id %}" method="post">
+            <form action="{% url 'like_blog' post.id %}" method="post" class="like-form">
                 {% csrf_token %}
                     <button type="submit" class="action-button like-button {% if user in post.likes.all %}liked{% endif %}">
                     <i class="{% if user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>

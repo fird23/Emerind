@@ -9,7 +9,7 @@
     <script src="{% static 'scripts/scripts.js' %}"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
-<body>
+<body data-user-authenticated="{{ user.is_authenticated|lower }}">
     <header>
         <div class="header-container">
             <div class="logo">
